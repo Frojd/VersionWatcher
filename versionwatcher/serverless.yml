@@ -9,7 +9,7 @@ provider:
 
 functions:
     trackPHP:
-        handler: handler.trackPHP
+        handler: phpHandler.trackPHP
         description: Track PHP dependencies
         events: # The Events that trigger this Function
             - http:
