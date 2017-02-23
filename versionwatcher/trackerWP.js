@@ -1,6 +1,6 @@
 'use strict';
 
-function trackWP(event, context, callback) {
+function handler(event, context, callback) {
     const wpVersion = event.queryStringParameters.wpversion;
     const project = event.queryStringParameters.project;
     const release = event.queryStringParameters.release;
@@ -34,4 +34,4 @@ function trackWP(event, context, callback) {
 };
 
 
-module.exports.trackWP = trackWP;
+module.exports.handler = handler;
