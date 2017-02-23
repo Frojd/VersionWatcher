@@ -1,0 +1,17 @@
+service: versionwatcher
+
+provider:
+    name: aws
+    runtime: nodejs4.3
+    profile: versionwatcher
+    stage: stage
+    region: eu-west-1
+
+functions:
+    trackPHP:
+        handler: handler.trackPHP
+        description: Tack PHP dependencies
+        events: # The Events that trigger this Function
+            - http:
+                path: watcher/track-php # Path for this endpoint
+                method: get # HTTP method for this endpoint
