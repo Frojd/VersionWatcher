@@ -10,8 +10,8 @@ provider:
 functions:
     trackPHP:
         handler: handler.trackPHP
-        description: Tack PHP dependencies
+        description: Track PHP dependencies
         events: # The Events that trigger this Function
             - http:
                 path: watcher/track-php # Path for this endpoint
-                method: get # HTTP method for this endpoint
+                method: post # HTTP method for this endpoint

@@ -1,6 +1,13 @@
 'use strict';
 
 module.exports.trackPHP = (event, context, callback) => {
+    // project
+    // stage
+    // secret
+    // data
+    //
+    // const body = JSON.parse(event.input.body);
+
     const response = {
         statusCode: 200,
         body: JSON.stringify({
