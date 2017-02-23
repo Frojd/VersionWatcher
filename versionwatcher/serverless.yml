@@ -8,10 +8,10 @@ provider:
     region: eu-west-1
 
 functions:
-    trackPHP:
-        handler: phpHandler.trackPHP
+    trackWP:
+        handler: wpHandler.trackWP
         description: Track PHP dependencies
-        events: # The Events that trigger this Function
+        events:
             - http:
-                path: watcher/track-php # Path for this endpoint
-                method: post # HTTP method for this endpoint
+                path: watcher/track-wp
+                method: post
