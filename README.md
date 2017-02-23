@@ -1,5 +1,13 @@
 # VersionWatcher
 
+## Requirements
+
+- awscli (`pip install awscli`)
+- node
+
+
+## Installing
+
 ## Usage
 
 - Python
@@ -78,5 +86,3 @@ curl -X POST --form $DATA --form project=Frojd/Client --form version=v1.1.1 --fo
     created: 123126753675127563
 }
 ```
-
-
