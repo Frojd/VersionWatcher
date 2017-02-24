@@ -21,7 +21,7 @@ functions:
         events: # The Events that trigger this Function
             - http:
                 path: tracker/node # Path for this endpoint
-                method: get # HTTP method for this endpoint
+                method: post # HTTP method for this endpoint
 resources:
   Resources:
     DynamoDBIamPolicy:
