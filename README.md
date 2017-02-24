@@ -24,65 +24,32 @@ DATA=$(wp plugin list)
 curl -X POST --form $DATA --form project=Frojd/Client --form version=v1.1.1 --form secret=123 https://versionwatcher.execute-api.region-id.amazonaws.com/track-php
 ```
 
+- Node
+
+```
+curl -H "Content-Type: application/json" -X POST -d @package.json https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/node?project=Frojd/Client
+```
+
 ## Data format
 
-### Proposal 1
+### Proposal RC
 
 ```
 {
-    project: 'Frojd/Ciient-Project',
-    versions: [
+    project: 'Frojd/Client-Project',
+    version: 1.0.0,
+    label: 'node',
+    language: 'javascript',
+    created: 123123123,
+    packages: [
         {
-            version: 'v1.1.1',
-            packages: [
-                ['Django', '1.10.5'],
-                ['Django', '1.10.5'],
-            ],
-            created: 123126753675127563
+            name: 'react',
+            version: '1.2.0'
         },
         {
-            version: 'v1.1.1',
-            packages: [
-                ['Django', '1.10.5'],
-                ['Django', '1.10.5'],
-            ],
-            created: 123126753675127563
-        },
+            name: 'webpack',
+            version: '2.0.0'
+        }
     ]
-}
-```
-
-
-### Proposal 2
-
-```
-{
-    project: 'Frojd/Ciient-Project',
-    version: 'v1.1.1',
-    packages: [
-        ['Django', '1.10.5'],
-        ['wagtail', '1.10.5'],
-    ],
-    created: 123126753675127563
-}
-
-{
-    project: 'Frojd/Ciient-Project',
-    version: 'v1.1.0',
-    packages: [
-        ['Django', '1.10.5'],
-        ['wagtail', '1.10.5'],
-    ],
-    created: 123126753675127563
-}
-
-{
-    project: 'Frojd/Ciient-Project',
-    version: 'v1.0.9',
-    packages: [
-        ['Django', '1.10.5'],
-        ['wagtail', '1.10.5'],
-    ],
-    created: 123126753675127563
 }
 ```

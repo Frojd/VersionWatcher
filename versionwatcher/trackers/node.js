@@ -5,6 +5,7 @@ const docClient = new AWS.DynamoDB.DocumentClient();
 
 function handler(event, context, callback) {
     const packageJson = JSON.parse(event.body);
+    const project = event.queryStringParameters.project;
 
     let packages = [];
     for(let key in packageJson.dependencies) {
@@ -24,7 +25,7 @@ function handler(event, context, callback) {
     let params = {
         TableName: 'VersionWatcher',
         Item: {
-            'project': packageJson.name,
+            'project': project,
             'version': packageJson.version,
             'label': 'node',
             'languages': 'javascript',
