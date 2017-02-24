@@ -1,5 +1,8 @@
 'use strict';
 
+const AWS = require('aws-sdk');
+const docClient = new AWS.DynamoDB.DocumentClient();
+
 function handler(event, context, callback) {
     // project
     // stage
@@ -7,6 +10,34 @@ function handler(event, context, callback) {
     // data
     //
     // const body = JSON.parse(event.input.body);
+
+
+    let params = {
+        TableName: 'VersionWatcher',
+        Item: {
+            'project': 'Frojd/HRF-HRF.se',
+            'version': '4.5.0',
+            'type': 'WordPress',
+            'languages': 'php',
+            'packages': [
+                {
+                    "react": "2.6.0"
+                },
+                {
+                    "webpack": "2.3.0"
+                }
+            ]
+        }
+    };
+
+    docClient.put(params, function(err, data) {
+        if (err) {
+            console.log('Unable to add item. Error JSON: ', JSON.stringify(err, null, 2));
+        } else {
+            console.log('Added');
+        }
+    });
+
 
     const response = {
         statusCode: 200,
