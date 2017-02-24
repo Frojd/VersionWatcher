@@ -15,3 +15,28 @@ functions:
             - http:
                 path: tracker/wp
                 method: post
+    trackNode:
+        handler: trackers.node
+        description: Track Node.js dependencies
+        events: # The Events that trigger this Function
+            - http:
+                path: tracker/node # Path for this endpoint
+                method: get # HTTP method for this endpoint
+
+# resources:
+#   Resources:
+#     DynamoDBIamPolicy:
+#       Type: AWS::IAM::Policy
+#       DependsOn: DynamoDbTable
+#       Properties:
+#         PolicyName: lambda-dynamodb
+#         PolicyDocument:
+#           Version: '2012-10-17'
+#           Statement:
+#             - Effect: Allow
+#               Action:
+#                 - dynamodb:GetItem
+#                 - dynamodb:PutItem
+#               Resource: arn:aws:dynamodb:*:*:table/my-table
+#         Roles:
+#           - Ref: IamRoleLambdaExecution
