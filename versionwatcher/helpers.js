@@ -1,3 +1,5 @@
+'use strict';
+
 const getDocumentClient = require('./db').getDocumentClient;
 
 function track(params, callback) {

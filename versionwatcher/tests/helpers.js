@@ -1,3 +1,5 @@
+'use strict';
+
 const settings = require('../settings');
 
 function MockedRequest(params) {
