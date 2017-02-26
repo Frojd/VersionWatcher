@@ -6,8 +6,8 @@ test:
     override:
         - npm run test
 
-#deployment:
-    #stage:
-        #branch: develop
-        #commands:
-            #- serververless deploy
+deployment:
+    stage:
+        branch: develop
+        commands:
+            - cd versionwatcher && serververless deploy
