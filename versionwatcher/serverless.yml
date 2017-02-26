@@ -9,7 +9,7 @@ provider:
 
 functions:
     tracker-wp:
-        handler: trackerWP.handler
+        handler: trackers.wp
         description: Track Wordpress dependencies
         events:
             - http:
@@ -18,10 +18,10 @@ functions:
     trackNode:
         handler: trackers.node
         description: Track Node.js dependencies
-        events: # The Events that trigger this Function
+        events:
             - http:
-                path: tracker/node # Path for this endpoint
-                method: post # HTTP method for this endpoint
+                path: tracker/node
+                method: post
 resources:
   Resources:
     DynamoDBIamPolicy:
