@@ -1,0 +1,13 @@
+machine:
+    node:
+        version: 4.3
+
+test:
+    override:
+        - npm run test
+
+deployment:
+    stage:
+        branch: develop
+        commands:
+            #- serververless deploy
