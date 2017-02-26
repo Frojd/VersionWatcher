@@ -10,4 +10,4 @@ deployment:
     stage:
         branch: develop
         commands:
-            - cd versionwatcher && ../node_modules/serverless/bin/serververless deploy
+            - cd versionwatcher && ../node_modules/serverless/bin/serverless deploy
