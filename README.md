@@ -14,7 +14,7 @@
 
 ```
 DATA=$(pip freeze)
-curl -X POST --form $DATA --form project=Frojd/Client --form stage=prod --form secret=123 https://123.execute-api.region-id.amazonaws.com/tracker/python
+curl -X POST https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/python?project=Frojd/Client&version=v1.0.0&label=django -d $DATA
 ```
 
 - PHP
