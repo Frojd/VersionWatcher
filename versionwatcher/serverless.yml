@@ -8,7 +8,7 @@ provider:
     region: eu-west-1
 
 functions:
-    tracker-wp:
+    trackWp:
         handler: trackers.wp
         description: Track Wordpress dependencies
         events:
@@ -21,6 +21,14 @@ functions:
         events:
             - http:
                 path: tracker/node
+                method: post
+
+    trackPython:
+        handler: trackers.python
+        description: Track Python dependencies
+        events:
+            - http:
+                path: tracker/python
                 method: post
 resources:
   Resources:

@@ -47,5 +47,5 @@ function handler(event, context, callback) {
 };
 
 module.exports = {
-    handler
+    handler,
 }

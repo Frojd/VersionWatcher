@@ -12,5 +12,5 @@ function getDocumentClient() {
 }
 
 module.exports = {
-    getDocumentClient: getDocumentClient,
+    getDocumentClient,
 }

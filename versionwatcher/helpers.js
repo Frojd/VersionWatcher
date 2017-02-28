@@ -21,5 +21,5 @@ function track(params, callback) {
 }
 
 module.exports = {
-    track: track,
+    track,
 }
