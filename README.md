@@ -12,14 +12,13 @@
 
 ## Usage
 
-### Python
+### Python with pip
 
 ```
-DATA=$(pip freeze)
-curl -X POST https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/python?project=Frojd/Client&version=v1.0.0&label=django -d $DATA
+curl -X POST https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/python?project=Frojd/Client&version=v1.0.0&label=django -d $(pip freeze)
 ```
 
-### PHP
+### PHP with Composer
 
 ```
 DATA=$(wp plugin list)
@@ -68,6 +67,17 @@ When tracking wordpress we need to both install wp-cli and wordpress.
 curl -H "Content-Type: application/json" -X POST -d @package.json https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/node?project=Frojd/Client
 ```
 
-### #C
+### C#
 
-## Data format
+- TODO
+
+
+## Roadmap
+
+- [ ] Tracking PHP + Composer
+- [ ] Tracking for Python
+- [ ] Tracking for C#
+- [ ] Add handling for duplicate versions
+- [ ] Implement api keys
+- [ ] Implement endpoint that allows browsing of data
+- [ ] Add timestamps to tracking model
