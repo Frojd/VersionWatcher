@@ -26,7 +26,15 @@ curl -X POST --form $DATA --form project=Frojd/Client --form version=v1.1.1 --fo
 
 ### Wordpress Classic on Circle CI
 
-When tracking wordpress we need to both install wp-cli and wordpress, the following snippets below will do this for us.
+When tracking wordpress we need to both install wp-cli and wordpress.
+
+1. Begin with making sure you have a wp-cli.yml file in your repository root that points to your wordpress dir.
+
+```bash
+echo "path: src/" > wp-cli.yml
+```
+
+2. Copy+paste these sections into your circle.yml file.
 
 ```yml
 dependencies:
