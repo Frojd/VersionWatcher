@@ -23,6 +23,7 @@ function handler(event, context, callback) {
         release: release,
         packages: packages,
         label: 'wordpress',
+        languages: 'php',
     }, (err, model) => {
         const response = {
             statusCode: 200,
