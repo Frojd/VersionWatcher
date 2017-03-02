@@ -15,6 +15,36 @@ describe('Test wp tracker', () => {
         settings.CUSTOM_DOCUMENT_CLIENT = undefined;
     });
 
+    describe('Test pip parsing', function() {
+        it('validates pip data parsing', function(done) {
+            let plugins = [
+                {
+                    "name": "dynamic-hostname",
+                    "status": "active",
+                    "update": "none",
+                    "version": "0.4.2"
+                },
+                {
+                    "name": "wp-total-hacks",
+                    "status": "active",
+                    "update": "none",
+                    "version": "2.0.1"
+                },
+                {
+                    "name":"force-locale-on-specific-pages",
+                    "status": "must-use",
+                    "update":"none",
+                    "version":""
+                }
+            ];
+
+            const result = wp.pluginsToPackages(plugins);
+            assert.equal(result.length, 2);
+            assert.equal(result[1].name, 'wp-total-hacks');
+            done();
+        });
+    });
+
     describe('Test wp tracker', function() {
         it('makes sure versions gets inserted into db', function(done) {
             let plugins = [
