@@ -36,9 +36,10 @@ function handler(event, context, callback) {
         const response = {
             statusCode: 200,
             body: JSON.stringify({
+                error: err,
                 input: event,
-                version: version,
                 project: project,
+                version: version,
                 packages: packages,
             }),
         };
