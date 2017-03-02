@@ -40,6 +40,16 @@ describe('Test python tracker', () => {
             assert.equal(result[13].version, '2.7.0');
             done();
         });
+
+        it('validates pip data parsing', function(done) {
+            let packages = 'awscli==1.11.38\\nbeautifulsoup4==4.5.1\\nbotocore==1.5.1';
+
+            const result = python.pipToArray(packages);
+            assert.equal(result.length, 3);
+            assert.equal(result[2].name, 'botocore');
+            assert.equal(result[2].version, '1.5.1');
+            done();
+        });
     });
 
     describe('Test python handler', function() {

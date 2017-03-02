@@ -3,7 +3,8 @@
 const track = require('../helpers').track;
 
 function pipToArray(data) {
-    data = data.split(/\n/);
+    data = data.replace(/\\n/g, '\n');
+    data = data.split(/(\r\n|\r|\n)/g);
     data = data.map((value) => {
         return value.trimLeft();
     });
