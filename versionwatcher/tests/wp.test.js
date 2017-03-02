@@ -16,7 +16,7 @@ describe('Test wp tracker', () => {
     });
 
     describe('Test pip parsing', function() {
-        it('validates pip data parsing', function(done) {
+        it('validates wp data parsing', function(done) {
             let plugins = [
                 {
                     "name": "dynamic-hostname",
@@ -80,6 +80,7 @@ describe('Test wp tracker', () => {
                 assert.equal(table[0].project, 'Frojd/Client-Project');
                 assert.equal(table[0].version, 'v1.0.0');
                 assert.equal(table[0].label, 'wordpress');
+                assert.ok(table[0].created > 1481466156);
                 assert.equal(table[0].branch, 'master');
                 assert.equal(table[0].packages.length, 3);
                 assert.equal(table[0].packages[2].name, 'wordpress');
