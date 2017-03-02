@@ -35,11 +35,14 @@ function handler(event, context, callback) {
         label: 'node',
         languages: 'javascript',
     }, (err, model) => {
+        if (err) {
+            return callback(err);
+        }
+
         const response = {
             statusCode: 200,
             body: JSON.stringify({
-                error: err,
-                input: event,
+                message: 'Tracking was successfull',
                 project: project,
                 version: version,
                 packages: packages,

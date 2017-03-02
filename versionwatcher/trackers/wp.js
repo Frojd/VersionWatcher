@@ -36,16 +36,14 @@ function handler(event, context, callback) {
         label: 'wordpress',
         languages: 'php',
     }, (err, model) => {
-        //if (err) {
-            //return callback(err);
-        //}
+        if (err) {
+            return callback(err);
+        }
 
         const response = {
             statusCode: 200,
             body: JSON.stringify({
-                error: err,
-                input: event,
-                wpVersion: wpVersion,
+                message: 'Tracking was successfull',
                 project: project,
                 version: version,
                 packages: packages,
