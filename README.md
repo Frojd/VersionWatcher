@@ -113,11 +113,12 @@ The parameter `LABEL` is optional and should refer to the framework or cms in us
 
 ### Node.js on Circle CI
 
-```
+1. Copy+paste this section into your circle.yml file.
+
+```yml
 test:
     override:
-        - npm run test
-
+        - ...
     post:
         # Track dependencies
         - |
