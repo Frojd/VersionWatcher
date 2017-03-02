@@ -17,7 +17,7 @@ When tracking wordpress we need to both install wp-cli, composer and wordpress.
     echo "path: src/" > wp-cli.yml
     ```
 
-2. Next, make sure you have a file called `test.env` checked in into your repo root
+2. Next, make sure you have a file called `test.env` in your repo root.
 
     ```
     DB_USER=ubuntu
