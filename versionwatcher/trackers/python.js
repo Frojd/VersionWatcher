@@ -24,15 +24,17 @@ function pipToArray(data) {
 }
 
 function handler(event, context, callback) {
-    const packages = event.body;
+    let packages = event.body;
     const project = event.queryStringParameters.project;
     const label = event.queryStringParameters.label;
     const version = event.queryStringParameters.version;
 
+    packages = pipToArray(packages);
+
     track({
         project: project,
         version: version,
-        packages: pipToArray(packages),
+        packages: packages,
         label: label,
         languages: 'python',
     }, (err, model) => {
