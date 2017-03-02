@@ -16,20 +16,20 @@
 
 1. Copy+paste this section into your circle.yml file.
 
-```yml
-test:
-    override:
-        - ...
-    post:
-        # Track dependencies
-        - |
-          LABEL="django" &&
-          PROJECT="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" &&
-          VERSION=${CIRCLE_TAG:-$CIRCLE_BRANCH} &&
-          pip freeze > post-requirements.txt &&
-          URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/python?project=$PROJECT&version=$VERSION&label=$LABEL" &&
-          curl -X POST $URL -H "Content-Type: text/plain; charset=utf-8" --data-binary @post-requirements.txt
-```
+    ```yml
+    test:
+        override:
+            - ...
+        post:
+            # Track dependencies
+            - |
+            LABEL="django" &&
+            PROJECT="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" &&
+            VERSION=${CIRCLE_TAG:-$CIRCLE_SHA1} &&
+            pip freeze > post-requirements.txt &&
+            URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/python?project=$PROJECT&version=$VERSION&label=$LABEL" &&
+            curl -X POST $URL -H "Content-Type: text/plain; charset=utf-8" --data-binary @post-requirements.txt
+    ```
 
 The parameter `LABEL` is optional and should refer to the framework or cms in use (Example: `wagtail`, `django`, `flask`)
 
@@ -75,7 +75,7 @@ When tracking wordpress we need to both install wp-cli, composer and wordpress.
             # Track dependencies
             - |
               PROJECT="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" &&
-              VERSION=${CIRCLE_TAG:-$CIRCLE_BRANCH} &&
+              VERSION=${CIRCLE_TAG:-$CIRCLE_SHA1} &&
               WP_VERSION=$(./wp-cli.phar core version) &&
               URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/wp?project=$PROJECT&version=$VERSION&wpversion=$WP_VERSION" &&
               curl -X POST $URL -H "Content-Type: text/plain; charset=utf-8" -d $(./wp-cli.phar plugin list --format=json)
@@ -106,12 +106,11 @@ When tracking wordpress we need to both install wp-cli and wordpress.
     test:
         override:
           - ...
-
         post:
             # Track dependencies
             - |
               PROJECT="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" &&
-              VERSION=${CIRCLE_TAG:-$CIRCLE_BRANCH} &&
+              VERSION=${CIRCLE_TAG:-$CIRCLE_SHA1} &&
               WP_VERSION=$(./wp-cli.phar core version) &&
               URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/wp?project=$PROJECT&version=$VERSION&wpversion=$WP_VERSION" &&
               curl -X POST $URL -H "Content-Type: text/plain; charset=utf-8" -d $(./wp-cli.phar plugin list --format=json)
