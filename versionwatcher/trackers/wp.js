@@ -25,6 +25,10 @@ function handler(event, context, callback) {
         label: 'wordpress',
         languages: 'php',
     }, (err, model) => {
+        if (err) {
+            return callback(err);
+        }
+
         const response = {
             statusCode: 200,
             body: JSON.stringify({
