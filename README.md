@@ -1,16 +1,11 @@
 # VersionWatcher
 
-## Requirements
-
-- awscli (`pip install awscli`)
-- node 4.2
-
-
-## Installing
-
-- TODO
-
 ## Usage
+
+- [Wordpress with Bedrock on Circle CI](#Wordpress-with-Bedrock-on-Circle-CI)
+- [Wordpress on Circle CI](#Wordpress-on-Circle-CI)
+- [Python on Circle CI](#python-on-Circle-CI)
+- [Node.js on Circle CI](#nodejs-on-Circle-CI)
 
 ### Wordpress with Bedrock on Circle CI
 
@@ -135,6 +130,26 @@ test:
 ### C#
 
 - TODO
+
+
+## Developing
+
+### Requirements
+
+- awscli (`pip install awscli`)
+- node 4.2
+
+### Installing
+
+- `npm install`
+
+### Testing
+
+- `npm test`
+
+### Deploying
+
+- `npm test`
 
 
 ## Roadmap
