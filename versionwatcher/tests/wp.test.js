@@ -47,6 +47,7 @@ describe('Test wp tracker', () => {
                 assert.equal(table.length, 1);
 
                 assert.equal(table[0].project, 'Frojd/Client-Project');
+                assert.equal(table[0].version, 'v1.0.0');
                 assert.equal(table[0].label, 'wordpress');
                 assert.equal(table[0].packages.length, 3);
                 assert.equal(table[0].packages[2].name, 'wordpress');

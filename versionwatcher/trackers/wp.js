@@ -5,7 +5,7 @@ const track = require('../helpers').track;
 function handler(event, context, callback) {
     const wpVersion = event.queryStringParameters.wpversion;
     const project = event.queryStringParameters.project;
-    const release = event.queryStringParameters.release;
+    const version = event.queryStringParameters.version;
 
     let packages = JSON.parse(event.body);
 
@@ -20,22 +20,23 @@ function handler(event, context, callback) {
 
     track({
         project: project,
-        release: release,
+        version: version,
         packages: packages,
         label: 'wordpress',
         languages: 'php',
     }, (err, model) => {
-        if (err) {
-            return callback(err);
-        }
+        //if (err) {
+            //return callback(err);
+        //}
 
         const response = {
             statusCode: 200,
             body: JSON.stringify({
+                error: err,
                 input: event,
                 wpVersion: wpVersion,
                 project: project,
-                release: release,
+                version: version,
                 packages: packages,
             }),
         };
