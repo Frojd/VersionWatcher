@@ -27,7 +27,7 @@
             PROJECT="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" &&
             VERSION=${CIRCLE_TAG:-$CIRCLE_SHA1} &&
             pip freeze > post-requirements.txt &&
-            URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/python?project=$PROJECT&version=$VERSION&label=$LABEL" &&
+            URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/python?project=$PROJECT&version=$VERSION&label=$LABEL&branch=$CIRCLE_BRANCH" &&
             curl -X POST $URL -H "Content-Type: text/plain; charset=utf-8" --data-binary @post-requirements.txt
     ```
 
@@ -77,7 +77,7 @@ When tracking wordpress we need to both install wp-cli, composer and wordpress.
               PROJECT="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" &&
               VERSION=${CIRCLE_TAG:-$CIRCLE_SHA1} &&
               WP_VERSION=$(./wp-cli.phar core version) &&
-              URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/wp?project=$PROJECT&version=$VERSION&wpversion=$WP_VERSION" &&
+              URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/wp?project=$PROJECT&version=$VERSION&wpversion=$WP_VERSION&branch=$CIRCLE_BRANCH" &&
               curl -X POST $URL -H "Content-Type: text/plain; charset=utf-8" -d $(./wp-cli.phar plugin list --format=json)
     ```
 
@@ -112,7 +112,7 @@ When tracking wordpress we need to both install wp-cli and wordpress.
               PROJECT="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" &&
               VERSION=${CIRCLE_TAG:-$CIRCLE_SHA1} &&
               WP_VERSION=$(./wp-cli.phar core version) &&
-              URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/wp?project=$PROJECT&version=$VERSION&wpversion=$WP_VERSION" &&
+              URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/wp?project=$PROJECT&version=$VERSION&wpversion=$WP_VERSION&branch=$CIRCLE_BRANCH" &&
               curl -X POST $URL -H "Content-Type: text/plain; charset=utf-8" -d $(./wp-cli.phar plugin list --format=json)
     ```
 
