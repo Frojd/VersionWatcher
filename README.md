@@ -2,10 +2,10 @@
 
 ## Usage
 
-- [Wordpress with Bedrock on Circle CI](#Wordpress-with-Bedrock-on-Circle-CI)
-- [Wordpress on Circle CI](#Wordpress-on-Circle-CI)
-- [Python on Circle CI](#python-on-Circle-CI)
-- [Node.js on Circle CI](#nodejs-on-Circle-CI)
+- [Wordpress with Bedrock on Circle CI](#wordpress-with-bedrock-on-circle-ci)
+- [Wordpress on Circle CI](#wordpress-on-circle-ci)
+- [Python on Circle CI](#python-on-circle-ci)
+- [Node.js on Circle CI](#nodejs-on-circle-ci)
 
 ### Wordpress with Bedrock on Circle CI
 
