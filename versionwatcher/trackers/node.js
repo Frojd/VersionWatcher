@@ -7,6 +7,7 @@ function handler(event, context, callback) {
     const project = event.queryStringParameters.project;
     const version = event.queryStringParameters.version;
     const branch = event.queryStringParameters.branch;
+    const commit = event.queryStringParameters.commit;
 
     let packages = [];
     let devPackages = [];
@@ -31,6 +32,7 @@ function handler(event, context, callback) {
         project,
         version,
         branch,
+        commit,
         packages,
         label: 'node',
         languages: 'javascript',

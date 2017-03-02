@@ -19,6 +19,7 @@ function handler(event, context, callback) {
     const project = event.queryStringParameters.project;
     const version = event.queryStringParameters.version;
     const branch = event.queryStringParameters.branch;
+    const commit = event.queryStringParameters.commit;
 
     let packages = JSON.parse(event.body);
     packages = pluginsToPackages(packages);
@@ -32,6 +33,7 @@ function handler(event, context, callback) {
         project,
         version,
         branch,
+        commit,
         packages,
         label: 'wordpress',
         languages: 'php',

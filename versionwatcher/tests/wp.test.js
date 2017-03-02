@@ -68,6 +68,7 @@ describe('Test wp tracker', () => {
                     project: 'Frojd/Client-Project',
                     version: 'v1.0.0',
                     branch: 'master',
+                    commit: '173a23d132f21',
                 },
                 body: JSON.stringify(plugins),
             }), null, (error, result) => {
@@ -80,7 +81,10 @@ describe('Test wp tracker', () => {
                 assert.equal(table[0].project, 'Frojd/Client-Project');
                 assert.equal(table[0].version, 'v1.0.0');
                 assert.equal(table[0].label, 'wordpress');
+                assert.equal(table[0].commit, '173a23d132f21');
+
                 assert.ok(table[0].created > 1481466156);
+
                 assert.equal(table[0].branch, 'master');
                 assert.equal(table[0].packages.length, 3);
                 assert.equal(table[0].packages[2].name, 'wordpress');

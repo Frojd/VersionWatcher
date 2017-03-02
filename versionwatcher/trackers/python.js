@@ -29,6 +29,7 @@ function handler(event, context, callback) {
     const label = event.queryStringParameters.label;
     const version = event.queryStringParameters.version;
     const branch = event.queryStringParameters.branch;
+    const commit = event.queryStringParameters.commit;
 
     packages = pipToArray(packages);
 
@@ -36,6 +37,7 @@ function handler(event, context, callback) {
         project,
         version,
         branch,
+        commit,
         packages,
         label: label,
         languages: 'python',

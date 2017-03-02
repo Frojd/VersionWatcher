@@ -50,7 +50,7 @@ When tracking wordpress we need to both install wp-cli, composer and wordpress.
               PROJECT="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" &&
               VERSION=${CIRCLE_TAG:-$CIRCLE_SHA1} &&
               WP_VERSION=$(./wp-cli.phar core version) &&
-              URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/wp?project=$PROJECT&version=$VERSION&wpversion=$WP_VERSION&branch=$CIRCLE_BRANCH" &&
+              URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/wp?project=$PROJECT&version=$VERSION&wpversion=$WP_VERSION&branch=$CIRCLE_BRANCH&commit=$CIRCLE_SHA1" &&
               curl -X POST $URL -H "Content-Type: application/json; charset=utf-8" -d $(./wp-cli.phar plugin list --format=json)
     ```
 
@@ -85,7 +85,7 @@ When tracking wordpress we need to both install wp-cli and wordpress.
               PROJECT="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" &&
               VERSION=${CIRCLE_TAG:-$CIRCLE_SHA1} &&
               WP_VERSION=$(./wp-cli.phar core version) &&
-              URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/wp?project=$PROJECT&version=$VERSION&wpversion=$WP_VERSION&branch=$CIRCLE_BRANCH" &&
+              URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/wp?project=$PROJECT&version=$VERSION&wpversion=$WP_VERSION&branch=$CIRCLE_BRANCH&commit=$CIRCLE_SHA1" &&
               curl -X POST $URL -H "Content-Type: application/json; charset=utf-8" -d $(./wp-cli.phar plugin list --format=json)
     ```
 
@@ -104,7 +104,7 @@ When tracking wordpress we need to both install wp-cli and wordpress.
             PROJECT="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" &&
             VERSION=${CIRCLE_TAG:-$CIRCLE_SHA1} &&
             pip freeze > post-requirements.txt &&
-            URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/python?project=$PROJECT&version=$VERSION&label=$LABEL&branch=$CIRCLE_BRANCH" &&
+            URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/python?project=$PROJECT&version=$VERSION&label=$LABEL&branch=$CIRCLE_BRANCH&commit=$CIRCLE_SHA1" &&
             curl -X POST $URL -H "Content-Type: text/plain; charset=utf-8" --data-binary @post-requirements.txt
     ```
 
@@ -124,7 +124,7 @@ test:
         - |
           PROJECT="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" &&
           VERSION=${CIRCLE_TAG:-$CIRCLE_SHA1} &&
-          URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/node?project=$PROJECT&version=$VERSION&branch=$CIRCLE_BRANCH" &&
+          URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/node?project=$PROJECT&version=$VERSION&branch=$CIRCLE_BRANCH&commit=$CIRCLE_SHA1" &&
           curl -X POST $URL -H "Content-Type: application/json; charset=utf-8" -d @package.json
 ```
 
@@ -155,10 +155,12 @@ test:
 
 ## Roadmap
 
-- [ ] Tracking PHP + Composer
-- [ ] Tracking for Python
+- [x] Tracking PHP + Composer
+- [x] Tracking for Python
+- [x] Add timestamps to tracking model
+- [ ] Add commit-id field
 - [ ] Tracking for C#
-- [ ] Add handling for duplicate versions
-- [ ] Implement api keys
 - [ ] Implement endpoint that allows browsing of data
-- [ ] Add timestamps to tracking model
+    - [ ] Show latest versions
+- [ ] Implement api keys
+- [ ] Error management in request handler

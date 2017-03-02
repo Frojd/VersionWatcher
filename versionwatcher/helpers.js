@@ -13,6 +13,7 @@ function track(params, callback) {
             version: params.version,
             branch: params.branch,
             label: params.label,
+            commit: params.commit,
             languages: params.languages,
             packages: params.packages,
             created,
