@@ -33,6 +33,7 @@ describe('Test node tracker', () => {
 
             const result = node.handler(helpers.MockedRequest({
                 queryStringParameters: {
+                    version: 'v1.0.0',
                     project: 'Frojd/Client-Project',
                 },
                 body: JSON.stringify(packageData),
@@ -44,7 +45,7 @@ describe('Test node tracker', () => {
                 assert.equal(table.length, 1);
 
                 assert.equal(table[0].project, 'Frojd/Client-Project');
-                assert.equal(table[0].version, '0.0.1');
+                assert.equal(table[0].version, 'v1.0.0');
                 assert.equal(table[0].label, 'node');
                 assert.equal(table[0].packages.length, 4);
                 assert.equal(table[0].packages[3].name, 'serverless');

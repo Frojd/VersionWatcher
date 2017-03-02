@@ -5,6 +5,7 @@ const track = require('../helpers').track;
 function handler(event, context, callback) {
     const packageJson = JSON.parse(event.body);
     const project = event.queryStringParameters.project;
+    const version = event.queryStringParameters.version;
 
     let packages = [];
     let devPackages = [];
@@ -27,7 +28,7 @@ function handler(event, context, callback) {
 
     track({
         project: project,
-        version: packageJson.version,
+        version: version,
         packages: packages,
         label: 'node',
         languages: 'javascript',
@@ -36,7 +37,7 @@ function handler(event, context, callback) {
             statusCode: 200,
             body: JSON.stringify({
                 input: event,
-                version: packageJson.version,
+                version: version,
                 project: project,
                 packages: packages,
             }),
