@@ -12,11 +12,27 @@
 
 ## Usage
 
-### Python with pip
+### Python on Circle CI
 
+1. Copy+paste this section into your circle.yml file.
+
+```yml
+test:
+    override:
+        - ...
+    post:
+        # Track dependencies
+        - |
+          LABEL="django" &&
+          PROJECT="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" &&
+          VERSION=${CIRCLE_TAG:-$CIRCLE_BRANCH} &&
+          pip freeze > post-requirements.txt &&
+          URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/python?project=$PROJECT&version=$VERSION&label=$LABEL" &&
+          curl -X POST $URL -H "Content-Type: text/plain; charset=utf-8" --data-binary @post-requirements.txt
 ```
-curl -X POST https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/python?project=Frojd/Client&version=v1.0.0&label=django -d $(pip freeze)
-```
+
+The parameter `LABEL` is optional and should refer to the framework or cms in use (Example: `wagtail`, `django`, `flask`)
+
 
 ### PHP with Composer
 
