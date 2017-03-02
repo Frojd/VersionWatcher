@@ -75,6 +75,7 @@ describe('Test python tracker', () => {
                 queryStringParameters: {
                     project: 'Frojd/Client-Project',
                     version: 'v1.0.0',
+                    branch: 'master',
                     label: 'django',
                 },
                 body: packages,
@@ -87,6 +88,7 @@ describe('Test python tracker', () => {
 
                 assert.equal(table[0].project, 'Frojd/Client-Project');
                 assert.equal(table[0].label, 'django');
+                assert.equal(table[0].branch, 'master');
                 assert.equal(table[0].packages.length, 14);
                 assert.equal(table[0].packages[13].name, 'factory-boy');
 

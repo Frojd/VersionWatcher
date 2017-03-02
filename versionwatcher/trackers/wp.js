@@ -18,6 +18,7 @@ function handler(event, context, callback) {
     const wpVersion = event.queryStringParameters.wpversion;
     const project = event.queryStringParameters.project;
     const version = event.queryStringParameters.version;
+    const branch = event.queryStringParameters.branch;
 
     let packages = JSON.parse(event.body);
     packages = pluginsToPackages(packages);
@@ -28,9 +29,10 @@ function handler(event, context, callback) {
     });
 
     track({
-        project: project,
-        version: version,
-        packages: packages,
+        project,
+        version,
+        branch,
+        packages,
         label: 'wordpress',
         languages: 'php',
     }, (err, model) => {

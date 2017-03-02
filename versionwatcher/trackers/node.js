@@ -6,6 +6,7 @@ function handler(event, context, callback) {
     const packageJson = JSON.parse(event.body);
     const project = event.queryStringParameters.project;
     const version = event.queryStringParameters.version;
+    const branch = event.queryStringParameters.branch;
 
     let packages = [];
     let devPackages = [];
@@ -27,9 +28,10 @@ function handler(event, context, callback) {
     packages = packages.concat(devPackages);
 
     track({
-        project: project,
-        version: version,
-        packages: packages,
+        project,
+        version,
+        branch,
+        packages,
         label: 'node',
         languages: 'javascript',
     }, (err, model) => {

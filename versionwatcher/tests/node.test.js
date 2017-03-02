@@ -35,6 +35,7 @@ describe('Test node tracker', () => {
                 queryStringParameters: {
                     version: 'v1.0.0',
                     project: 'Frojd/Client-Project',
+                    branch: 'develop',
                 },
                 body: JSON.stringify(packageData),
             }), null, (error, result) => {
@@ -46,6 +47,7 @@ describe('Test node tracker', () => {
 
                 assert.equal(table[0].project, 'Frojd/Client-Project');
                 assert.equal(table[0].version, 'v1.0.0');
+                assert.equal(table[0].branch, 'develop');
                 assert.equal(table[0].label, 'node');
                 assert.equal(table[0].packages.length, 4);
                 assert.equal(table[0].packages[3].name, 'serverless');

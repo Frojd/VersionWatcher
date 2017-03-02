@@ -28,13 +28,15 @@ function handler(event, context, callback) {
     const project = event.queryStringParameters.project;
     const label = event.queryStringParameters.label;
     const version = event.queryStringParameters.version;
+    const branch = event.queryStringParameters.branch;
 
     packages = pipToArray(packages);
 
     track({
-        project: project,
-        version: version,
-        packages: packages,
+        project,
+        version,
+        branch,
+        packages,
         label: label,
         languages: 'python',
     }, (err, model) => {

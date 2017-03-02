@@ -67,6 +67,7 @@ describe('Test wp tracker', () => {
                     wpversion: '4.2.0',
                     project: 'Frojd/Client-Project',
                     version: 'v1.0.0',
+                    branch: 'master',
                 },
                 body: JSON.stringify(plugins),
             }), null, (error, result) => {
@@ -79,6 +80,7 @@ describe('Test wp tracker', () => {
                 assert.equal(table[0].project, 'Frojd/Client-Project');
                 assert.equal(table[0].version, 'v1.0.0');
                 assert.equal(table[0].label, 'wordpress');
+                assert.equal(table[0].branch, 'master');
                 assert.equal(table[0].packages.length, 3);
                 assert.equal(table[0].packages[2].name, 'wordpress');
 

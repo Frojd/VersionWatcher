@@ -9,6 +9,7 @@ function track(params, callback) {
         Item: {
             'project': params.project,
             'version': params.version,
+            'branch': params.branch,
             'label': params.label,
             'languages': params.languages,
             'packages': params.packages,
