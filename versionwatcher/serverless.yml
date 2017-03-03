@@ -23,13 +23,13 @@ functions:
                 path: tracker/node
                 method: post
 
-    trackPython:
-        handler: trackers.python
-        description: Track Python dependencies
+    stableHandler:
+        handler: result.stableHandler
+        description: Perform queries on the stable releases
         events:
             - http:
-                path: tracker/python
-                method: post
+                path: tracker/stable
+                method: get
 resources:
   Resources:
     DynamoDBIamPolicy:
@@ -42,6 +42,8 @@ resources:
             - Effect: Allow
               Action:
                 - dynamodb:PutItem
-              Resource: arn:aws:dynamodb:*:*:table/VersionWatcher
+              Resource:
+                - arn:aws:dynamodb:*:*:table/VersionWatcher
+                - arn:aws:dynamodb:*:*:table/VersionWatcherStable
         Roles:
           - Ref: IamRoleLambdaExecution
