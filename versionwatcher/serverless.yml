@@ -42,6 +42,9 @@ resources:
             - Effect: Allow
               Action:
                 - dynamodb:PutItem
+                - dynamodb:GetItem
+                - dynamodb:Query
+                - dynamodb:Scan
               Resource:
                 - arn:aws:dynamodb:*:*:table/VersionWatcher
                 - arn:aws:dynamodb:*:*:table/VersionWatcherStable
