@@ -44,7 +44,7 @@ function trackStable(params) {
         TableName: 'VersionWatcherStable',
         Item: {
             project_branch: `${params.project}:${params.branch}`,
-            release: `${params.project}:${params.version}`,
+            version: params.version,
             project: params.project,
             branch: params.branch,
             created,

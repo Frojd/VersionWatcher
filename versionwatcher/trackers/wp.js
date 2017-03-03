@@ -39,7 +39,7 @@ function handler(event, context, callback) {
             label: 'wordpress',
             languages: 'php',
         }),
-        helpers.isStable({project, branch, version}) ? helpers.trackStable({
+        helpers.isStable({branch}) ? helpers.trackStable({
             project,
             branch,
             version,

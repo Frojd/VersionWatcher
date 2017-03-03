@@ -88,6 +88,8 @@ describe('Test node tracker', () => {
                 assert.equal(result.statusCode, 200);
                 assert.equal(stableTable.length, 1);
 
+                assert.equal(stableTable[0].version, 'v1.0.0');
+
                 assert.equal(table[0].project, 'Frojd/Client-Project');
                 assert.equal(table[0].version, 'v1.0.0');
                 assert.equal(table[0].branch, 'master');
