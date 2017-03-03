@@ -23,6 +23,14 @@ functions:
                 path: tracker/node
                 method: post
 
+    trackPython:
+        handler: trackers.python
+        description: Track python dependencies
+        events:
+            - http:
+                path: tracker/python
+                method: post
+
     stableHandler:
         handler: result.stableHandler
         description: Perform queries on the stable releases
