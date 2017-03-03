@@ -85,7 +85,15 @@ function stableHandler (event, context, callback) {
             values = values.map((item) => {
                 return item.Item;
             });
-            callback(null, values);
+
+            const response = {
+                statusCode: 200,
+                body: JSON.stringify({
+                    values,
+                }),
+            };
+
+            callback(null, response);
         }, (error) => {
             callback(error);
         });
