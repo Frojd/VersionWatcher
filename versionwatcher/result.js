@@ -89,9 +89,8 @@ function stableHandler (event, context, callback) {
         }, (error) => {
             callback(error);
         });
-
     }, (err) => {
-        console.log(err);
+        callback(err);
     });
 }
 
