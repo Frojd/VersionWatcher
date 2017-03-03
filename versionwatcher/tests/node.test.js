@@ -57,5 +57,47 @@ describe('Test node tracker', () => {
                 done();
             });
         });
+
+        it('makes sure stable gets created', function(done) {
+            let packageData = {
+                "name": "Frojd/Client-Project",
+                "version": "0.0.1",
+                "dependencies": {
+                    "react": "^3.2.0",
+                    "backbone": "^1.7.0"
+                },
+                "devDependencies": {
+                    "mocha": "^3.2.0",
+                    "serverless": "^1.7.0"
+                }
+            }
+
+            const result = node.handler(helpers.MockedRequest({
+                queryStringParameters: {
+                    version: 'v1.0.0',
+                    project: 'Frojd/Client-Project',
+                    branch: 'master',
+                    commit: 'a173a23d132f21',
+                },
+                body: JSON.stringify(packageData),
+            }), null, (error, result) => {
+                const tables = settings.CUSTOM_DOCUMENT_CLIENT.tables;
+                const stableTable = tables['VersionWatcherStable'];
+                const table = tables['VersionWatcher'];
+
+                assert.equal(result.statusCode, 200);
+                assert.equal(stableTable.length, 1);
+
+                assert.equal(table[0].project, 'Frojd/Client-Project');
+                assert.equal(table[0].version, 'v1.0.0');
+                assert.equal(table[0].branch, 'master');
+                assert.equal(table[0].commit, 'a173a23d132f21');
+                assert.equal(table[0].label, 'node');
+                assert.equal(table[0].packages.length, 4);
+                assert.equal(table[0].packages[3].name, 'serverless');
+
+                done();
+            });
+        });
     });
 });

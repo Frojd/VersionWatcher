@@ -1,6 +1,6 @@
 'use strict';
 
-const track = require('../helpers').track;
+const helpers = require('../helpers')
 
 function handler(event, context, callback) {
     const packageJson = JSON.parse(event.body);
@@ -28,19 +28,24 @@ function handler(event, context, callback) {
 
     packages = packages.concat(devPackages);
 
-    track({
-        project,
-        version,
-        branch,
-        commit,
-        packages,
-        label: 'node',
-        languages: 'javascript',
-    }, (err, model) => {
-        if (err) {
-            return callback(err);
-        }
+    let promises = [
+        helpers.track({
+            project,
+            version,
+            branch,
+            commit,
+            packages,
+            label: 'node',
+            languages: 'javascript',
+        }),
+        helpers.isStable({project, branch, version}) ? helpers.trackStable({
+            project,
+            branch,
+            version,
+        }) : null
+    ];
 
+    Promise.all(promises).then((values) => {
         const response = {
             statusCode: 200,
             body: JSON.stringify({
@@ -50,8 +55,9 @@ function handler(event, context, callback) {
                 packages: packages,
             }),
         };
-
         callback(null, response);
+    }, (error) => {
+        callback(error);
     });
 };
 

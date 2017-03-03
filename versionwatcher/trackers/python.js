@@ -1,6 +1,6 @@
 'use strict';
 
-const track = require('../helpers').track;
+const helpers = require('../helpers')
 
 function pipToArray(data) {
     data = data.replace(/\\n/g, '\n');
@@ -33,19 +33,24 @@ function handler(event, context, callback) {
 
     packages = pipToArray(packages);
 
-    track({
-        project,
-        version,
-        branch,
-        commit,
-        packages,
-        label: label,
-        languages: 'python',
-    }, (err, model) => {
-        if (err) {
-            return callback(err);
-        }
+    let promises = [
+        helpers.track({
+            project,
+            version,
+            branch,
+            commit,
+            packages,
+            label: label,
+            languages: 'python',
+        }),
+        helpers.isStable({project, branch, version}) ? helpers.trackStable({
+            project,
+            branch,
+            version,
+        }) : null
+    ];
 
+    Promise.all(promises).then((values) => {
         const response = {
             statusCode: 200,
             body: JSON.stringify({
@@ -55,8 +60,9 @@ function handler(event, context, callback) {
                 packages: packages,
             }),
         };
-
         callback(null, response);
+    }, (error) => {
+        callback(error);
     });
 };
 
