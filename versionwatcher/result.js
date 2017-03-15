@@ -6,7 +6,7 @@ function stableReleases(params) {
     let docClient = getDocumentClient();
 
     var params = {
-        TableName: "VersionWatcherStable"
+        TableName: "VersionWatcherStable",
     };
 
     return new Promise(
@@ -26,7 +26,7 @@ function filterStableReleases(params) {
 
     var params = {
         ExpressionAttributeValues: {
-            ":project_branch": "Frojd/Timbro-Timbro.se:master",
+            ":project_branch": `${params.project}:${params.branch}`,
         },
         KeyConditionExpression: "project_branch = :project_branch",
         TableName: "VersionWatcherStable"
@@ -68,8 +68,12 @@ function getRelease(params) {
 function stableHandler (event, context, callback) {
     let docClient = getDocumentClient();
     let project = event.queryStringParameters.project;
+    let branch = "master";
 
-    (project ? filterStableReleases({project}) : stableReleases()).then((data) => {
+    (project ? filterStableReleases({
+        project,
+        branch,
+    }) : stableReleases()).then((data) => {
         let releases = data.Items.map((item) => {
             return {
                 project: item.project,
