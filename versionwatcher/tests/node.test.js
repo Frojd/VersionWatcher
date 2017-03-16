@@ -83,6 +83,7 @@ describe('Test node tracker', () => {
             }), null, (error, result) => {
                 const tables = settings.CUSTOM_DOCUMENT_CLIENT.tables;
                 const stableTable = tables['VersionWatcherStable'];
+                const packagesTable = tables['VersionWatcherPackage'];
                 const table = tables['VersionWatcher'];
 
                 assert.equal(result.statusCode, 200);
@@ -97,6 +98,11 @@ describe('Test node tracker', () => {
                 assert.equal(table[0].label, 'node');
                 assert.equal(table[0].packages.length, 4);
                 assert.equal(table[0].packages[3].name, 'serverless');
+
+                assert.equal(packagesTable.length, 4);
+                assert.equal(packagesTable[0].project_version,
+                    'Frojd/Client-Project:v1.0.0');
+                assert.equal(packagesTable[0].package_version, 'react:^3.2.0');
 
                 done();
             });

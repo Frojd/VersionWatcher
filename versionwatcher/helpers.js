@@ -1,35 +1,41 @@
 'use strict';
 
-const getDocumentClient = require('./db').getDocumentClient;
+const put = require('./db').put;
 
-function track(params) {
-    const docClient = getDocumentClient();
-    const created = params.created || Math.floor((new Date).getTime()/1000);
-
-    const model = {
-        TableName: 'VersionWatcher',
-        Item: {
-            project: params.project,
-            version: params.version,
-            branch: params.branch,
-            label: params.label,
-            commit: params.commit,
-            languages: params.languages,
-            packages: params.packages,
-            created,
-        }
+function addPackage(params) {
+    const item = {
+        project_version: `${params.project}:${params.version}`,
+        package_version: `${params.packageName}:${params.packageVersion}`,
+        package: params.packageName,
+        version: params.packageVersion,
     };
 
-    return new Promise(
-        (resolve, reject) => {
-            docClient.put(model, function(err, data) {
-                if (err) {
-                    return reject(err);
-                }
-                resolve(data);
-            });
-        }
-    );
+    return put({ TableName: 'VersionWatcherPackage' }, item);
+}
+
+function track(params) {
+    params.packages.map((pkg) => {
+        addPackage({
+            project: params.project,
+            version: params.version,
+            packageName: pkg.name,
+            packageVersion: pkg.version,
+        });
+    });
+
+    const item = {
+        project: params.project,
+        version: params.version,
+        branch: params.branch,
+        label: params.label,
+        commit: params.commit,
+        languages: params.languages,
+        packages: params.packages,
+        created: params.created || Math.floor((new Date).getTime()/1000),
+    }
+
+    // TODO: Rename to VersionWatcherVersion
+    return put({ TableName: 'VersionWatcher' }, item);
 }
 
 function isStable(params) {
@@ -37,30 +43,15 @@ function isStable(params) {
 }
 
 function trackStable(params) {
-    const docClient = getDocumentClient();
-    const created = params.created || Math.floor((new Date).getTime()/1000);
-
-    const model = {
-        TableName: 'VersionWatcherStable',
-        Item: {
-            project_branch: `${params.project}:${params.branch}`,
-            version: params.version,
-            project: params.project,
-            branch: params.branch,
-            created,
-        }
+    const item = {
+        project_branch: `${params.project}:${params.branch}`,
+        version: params.version,
+        project: params.project,
+        branch: params.branch,
+        created: params.created || Math.floor((new Date).getTime()/1000),
     };
 
-    return new Promise(
-        (resolve, reject) => {
-            docClient.put(model, function(err, data) {
-                if (err) {
-                    return reject(err);
-                }
-                resolve(data);
-            });
-        }
-    );
+    return put({ TableName: 'VersionWatcherStable' }, item);
 }
 
 module.exports = {
