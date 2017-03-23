@@ -49,7 +49,7 @@ function getRelease(params) {
 
     var params = {
         Key: params,
-        TableName: "VersionWatcher"
+        TableName: "VersionWatcherVersion"
     };
 
     return new Promise(

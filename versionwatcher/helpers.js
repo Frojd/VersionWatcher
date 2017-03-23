@@ -35,7 +35,7 @@ function track(params) {
     }
 
     // TODO: Rename to VersionWatcherVersion
-    return put({ TableName: 'VersionWatcher' }, item);
+    return put({ TableName: 'VersionWatcherVersion' }, item);
 }
 
 function isStable(params) {

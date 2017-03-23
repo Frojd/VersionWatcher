@@ -54,7 +54,8 @@ resources:
                 - dynamodb:Query
                 - dynamodb:Scan
               Resource:
-                - arn:aws:dynamodb:*:*:table/VersionWatcher
+                - arn:aws:dynamodb:*:*:table/VersionWatcherVersion
                 - arn:aws:dynamodb:*:*:table/VersionWatcherStable
+                - arn:aws:dynamodb:*:*:table/VersionWatcherPackage
         Roles:
           - Ref: IamRoleLambdaExecution

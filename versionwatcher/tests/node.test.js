@@ -41,7 +41,7 @@ describe('Test node tracker', () => {
                 body: JSON.stringify(packageData),
             }), null, (error, result) => {
                 const tables = settings.CUSTOM_DOCUMENT_CLIENT.tables;
-                const table = tables['VersionWatcher'];
+                const table = tables['VersionWatcherVersion'];
 
                 assert.equal(result.statusCode, 200);
                 assert.equal(table.length, 1);
@@ -84,7 +84,7 @@ describe('Test node tracker', () => {
                 const tables = settings.CUSTOM_DOCUMENT_CLIENT.tables;
                 const stableTable = tables['VersionWatcherStable'];
                 const packagesTable = tables['VersionWatcherPackage'];
-                const table = tables['VersionWatcher'];
+                const table = tables['VersionWatcherVersion'];
 
                 assert.equal(result.statusCode, 200);
                 assert.equal(stableTable.length, 1);

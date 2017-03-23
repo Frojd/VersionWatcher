@@ -82,7 +82,7 @@ describe('Test python tracker', () => {
                 body: packages,
             }), null, (error, result) => {
                 const tables = settings.CUSTOM_DOCUMENT_CLIENT.tables;
-                const table = tables['VersionWatcher'];
+                const table = tables['VersionWatcherVersion'];
 
                 assert.equal(result.statusCode, 200);
                 assert.equal(table.length, 1);
