@@ -38,6 +38,7 @@ functions:
             - http:
                 path: tracker/stable
                 method: get
+
 resources:
   Resources:
     DynamoDBIamPolicy:
