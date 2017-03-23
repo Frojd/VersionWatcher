@@ -1,6 +1,6 @@
 'use strict';
 
-const helpers = require('../helpers')
+const helpers = require('../../helpers')
 
 function pluginsToPackages(plugins) {
     let packages = plugins.map((item) => {

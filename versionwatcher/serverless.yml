@@ -9,14 +9,14 @@ provider:
 
 functions:
     trackWp:
-        handler: trackers.wp
+        handler: handlers.wp
         description: Track Wordpress dependencies
         events:
             - http:
                 path: tracker/wp
                 method: post
     trackNode:
-        handler: trackers.node
+        handler: handlers.node
         description: Track Node.js dependencies
         events:
             - http:
@@ -24,7 +24,7 @@ functions:
                 method: post
 
     trackPython:
-        handler: trackers.python
+        handler: handlers.python
         description: Track python dependencies
         events:
             - http:
@@ -32,7 +32,7 @@ functions:
                 method: post
 
     stableHandler:
-        handler: result.stableHandler
+        handler: handlers.stableHandler
         description: Perform queries on the stable releases
         events:
             - http:

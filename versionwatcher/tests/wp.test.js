@@ -3,7 +3,7 @@
 const assert = require('assert');
 const helpers = require('./helpers');
 const settings = require('../settings');
-const wp = require('../trackers/wp');
+const wp = require('../handlers/trackers/wp');
 
 
 describe('Test wp tracker', () => {

@@ -1,6 +1,7 @@
 'use strict';
 
-const getDocumentClient = require('./db').getDocumentClient;
+const getDocumentClient = require('../db').getDocumentClient;
+const getDoc = require('../db').getDoc;
 
 function stableReleases(params) {
     let docClient = getDocumentClient();
@@ -45,24 +46,7 @@ function filterStableReleases(params) {
 }
 
 function getRelease(params) {
-    let docClient = getDocumentClient();
-
-    var params = {
-        Key: params,
-        TableName: "VersionWatcherVersion"
-    };
-
-    return new Promise(
-        (resolve, reject) => {
-            docClient.get(params, function(err, data) {
-                if (err) {
-                    return reject(err);
-                }
-
-                resolve(data);
-            });
-        }
-    );
+    return getDoc({ TableName: "VersionWatcherVersion" }, params);
 }
 
 function stableHandler (event, context, callback) {

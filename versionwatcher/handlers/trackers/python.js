@@ -1,6 +1,6 @@
 'use strict';
 
-const helpers = require('../helpers')
+const helpers = require('../../helpers')
 
 function pipToArray(data) {
     data = data.replace(/\\n/g, '\n');

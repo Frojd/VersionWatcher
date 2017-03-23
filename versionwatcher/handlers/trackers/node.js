@@ -1,6 +1,6 @@
 'use strict';
 
-const helpers = require('../helpers')
+const helpers = require('../../helpers')
 
 function handler(event, context, callback) {
     const packageJson = JSON.parse(event.body);

@@ -4,7 +4,7 @@
 const assert = require('assert');
 const helpers = require('./helpers');
 const settings = require('../settings');
-const python = require('../trackers/python');
+const python = require('../handlers/trackers/python');
 
 
 describe('Test python tracker', () => {

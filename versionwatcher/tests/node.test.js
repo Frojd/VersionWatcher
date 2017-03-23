@@ -3,7 +3,7 @@
 const assert = require('assert');
 const helpers = require('./helpers');
 const settings = require('../settings');
-const node = require('../trackers/node');
+const node = require('../handlers/trackers/node');
 
 
 describe('Test node tracker', () => {
