@@ -15,6 +15,7 @@ functions:
             - http:
                 path: tracker/wp
                 method: post
+
     trackNode:
         handler: handlers.node
         description: Track Node.js dependencies
@@ -33,7 +34,7 @@ functions:
 
     stableHandler:
         handler: handlers.stableHandler
-        description: Perform queries on the stable releases
+        description: List stable versions
         events:
             - http:
                 path: tracker/stable
