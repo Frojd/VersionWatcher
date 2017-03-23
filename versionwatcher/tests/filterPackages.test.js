@@ -65,6 +65,9 @@ describe('Test result endpoints', () => {
         items = filterVersionsByPackage(versions, 'wordpress:4.5*');
         assert.equal(items.length, 0);
 
+        items = filterVersionsByPackage(versions, 'wp-total-hacks');
+        assert.equal(items.length, 1);
+
         done();
     });
 });

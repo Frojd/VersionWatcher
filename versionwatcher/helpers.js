@@ -63,16 +63,17 @@ function filterVersionsByPackage(versions, packageName) {
     let name = packageInfo[0];
     let version = packageInfo[1] || '*';
 
-    let pattern = `^${name}\\:${version}`;
+    let pattern = `^${name}\\:${version}$`;
     pattern = pattern.split('*').join('(.*)');
-    pattern = new RegExp(pattern, 'gi');
+    pattern = pattern.split('-').join('\\-');
+    pattern = new RegExp(pattern, 'i');
 
     versions = versions.filter((version) => {
-        let found = false;
+        var found = false;
 
         for (let pkg of version.packages) {
             if (found) {
-                return;
+                break;
             }
 
             let id =`${pkg.name}:${pkg.version}`;
