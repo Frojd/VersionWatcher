@@ -11,7 +11,23 @@ function getDocumentClient() {
     return new AWS.DynamoDB.DocumentClient();
 }
 
-function put(config, item) {
+function getDoc(config, params) {
+    const docClient = getDocumentClient();
+    const options = Object.assign({}, config, { Key: params});
+
+    return new Promise(
+        (resolve, reject) => {
+            docClient.get(options, function(err, data) {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(data);
+            });
+        }
+    );
+}
+
+function putDoc(config, item) {
     const docClient = getDocumentClient();
     const model = Object.assign({}, config, { Item: item });
 
@@ -29,5 +45,6 @@ function put(config, item) {
 
 module.exports = {
     getDocumentClient,
-    put,
+    getDoc,
+    putDoc,
 }

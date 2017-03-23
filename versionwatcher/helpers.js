@@ -1,6 +1,6 @@
 'use strict';
 
-const put = require('./db').put;
+const putDoc = require('./db').putDoc;
 
 function addPackage(params) {
     const item = {
@@ -10,7 +10,7 @@ function addPackage(params) {
         version: params.packageVersion,
     };
 
-    return put({ TableName: 'VersionWatcherPackage' }, item);
+    return putDoc({ TableName: 'VersionWatcherPackage' }, item);
 }
 
 function track(params) {
@@ -35,7 +35,7 @@ function track(params) {
     }
 
     // TODO: Rename to VersionWatcherVersion
-    return put({ TableName: 'VersionWatcherVersion' }, item);
+    return putDoc({ TableName: 'VersionWatcherVersion' }, item);
 }
 
 function isStable(params) {
@@ -51,7 +51,7 @@ function trackStable(params) {
         created: params.created || Math.floor((new Date).getTime()/1000),
     };
 
-    return put({ TableName: 'VersionWatcherStable' }, item);
+    return putDoc({ TableName: 'VersionWatcherStable' }, item);
 }
 
 module.exports = {
