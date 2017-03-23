@@ -2,6 +2,7 @@
 
 const getDocumentClient = require('../db').getDocumentClient;
 const getDoc = require('../db').getDoc;
+const filterVersionsByPackage = require('../helpers').filterVersionsByPackage;
 
 function stableReleases(params) {
     let docClient = getDocumentClient();
@@ -45,14 +46,11 @@ function filterStableReleases(params) {
     );
 }
 
-function getRelease(params) {
-    return getDoc({ TableName: "VersionWatcherVersion" }, params);
-}
-
-function stableHandler (event, context, callback) {
+function stableHandler(event, context, callback) {
     let docClient = getDocumentClient();
     let queryStringParameters = event.queryStringParameters || {};
     let project = queryStringParameters.project;
+    let packageName = queryStringParameters.package;
     let branch = "master";
 
     (project ? filterStableReleases({
@@ -67,7 +65,7 @@ function stableHandler (event, context, callback) {
         });
 
         let promises = releases.map((item) => {
-            return getRelease(item);
+            return getDoc({ TableName: "VersionWatcherVersion" }, item);
         });
 
         Promise.all(promises).then((values) => {
@@ -75,11 +73,11 @@ function stableHandler (event, context, callback) {
                 return item.Item;
             });
 
+            values = filterVersionsByPackage(values, packageName);
+
             const response = {
                 statusCode: 200,
-                body: JSON.stringify({
-                    values,
-                }),
+                body: JSON.stringify(values)
             };
 
             callback(null, response);

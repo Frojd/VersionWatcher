@@ -54,8 +54,40 @@ function trackStable(params) {
     return putDoc({ TableName: 'VersionWatcherStable' }, item);
 }
 
+function filterVersionsByPackage(versions, packageName) {
+    if (!packageName) {
+        return versions;
+    }
+
+    let packageInfo = packageName.split(":");
+    let name = packageInfo[0];
+    let version = packageInfo[1] || '*';
+
+    let pattern = `^${name}\\:${version}`;
+    pattern = pattern.split('*').join('(.*)');
+    pattern = new RegExp(pattern, 'gi');
+
+    versions = versions.filter((version) => {
+        let found = false;
+
+        for (let pkg of version.packages) {
+            if (found) {
+                return;
+            }
+
+            let id =`${pkg.name}:${pkg.version}`;
+            found = pattern.test(id);
+        }
+
+        return found;
+    });
+
+    return versions;
+}
+
 module.exports = {
     track,
     isStable,
     trackStable,
+    filterVersionsByPackage,
 }
