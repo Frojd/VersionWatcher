@@ -67,7 +67,8 @@ function getRelease(params) {
 
 function stableHandler (event, context, callback) {
     let docClient = getDocumentClient();
-    let project = event.queryStringParameters.project;
+    let queryStringParameters = event.queryStringParameters || {};
+    let project = queryStringParameters.project;
     let branch = "master";
 
     (project ? filterStableReleases({
