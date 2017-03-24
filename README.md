@@ -1,6 +1,8 @@
 # VersionWatcher
 
-## Usage
+This is a tool for keeping track on project dependecies.
+
+## Usage (Tracking)
 
 - [Wordpress with Bedrock on Circle CI](#wordpress-with-bedrock-on-circle-ci)
 - [Wordpress on Circle CI](#wordpress-on-circle-ci)
@@ -133,12 +135,24 @@ test:
 - TODO
 
 
+## Usage (Reading)
+
+- `tracker/stable`
+
+Params:
+```
+project (example "Frojd/Client-project")
+package (example "wordpress:4.7.2")
+```
+
 ## Developing
+
+This application is built on the serverless framework, hosted on aws, utilizing AWS Lambda and DynamoDB. The application is written in Node.js
 
 ### Requirements
 
 - awscli (`pip install awscli`)
-- node 4.2
+- node 6.10
 
 ### Installing
 
@@ -158,9 +172,13 @@ test:
 - [x] Tracking PHP + Composer
 - [x] Tracking for Python
 - [x] Add timestamps to tracking model
-- [ ] Add commit-id field
+- [x] Add commit-id field
 - [ ] Tracking for C#
-- [ ] Implement endpoint that allows browsing of data
-    - [ ] Show latest versions
-- [ ] Implement api keys
+- [x] Implement endpoint that allows browsing of data
+    - [x] Show latest versions
+- [x] Implement api keys
+- [x] Sort result by date
+- [ ] Pretty print date in result listing
+- [ ] Lower lambda memory
+- [ ] Update Node.js version
 - [ ] Error management in request handler
