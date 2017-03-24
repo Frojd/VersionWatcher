@@ -34,12 +34,11 @@ function track(params) {
         created: params.created || Math.floor((new Date).getTime()/1000),
     }
 
-    // TODO: Rename to VersionWatcherVersion
     return putDoc({ TableName: 'VersionWatcherVersion' }, item);
 }
 
 function isStable(params) {
-    return params.branch === 'master';
+    return ['master', 'develop'].includes(params.branch);
 }
 
 function trackStable(params) {
