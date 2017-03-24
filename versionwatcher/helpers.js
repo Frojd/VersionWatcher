@@ -38,7 +38,7 @@ function track(params) {
 }
 
 function isStable(params) {
-    return ['master', 'develop'].includes(params.branch);
+    return ['master', 'develop'].indexOf(params.branch) != -1;
 }
 
 function trackStable(params) {
