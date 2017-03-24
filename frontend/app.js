@@ -4,13 +4,18 @@ var app = new Vue({
     el: '#app',
     data: {
         search: '',
+        onlyProduction: true,
         activeModal: '',
         hasContent: false,
-        versions: [
-        ],
+        versions: [],
     },
     mounted: function () {
         this.loadFetch(this.search);
+    },
+    watch: {
+        onlyProduction: function(oldVal, newVal) {
+            this.loadFetch(this.search);
+        }
     },
     methods: {
         showDetailed: function(e) {
@@ -20,9 +25,13 @@ var app = new Vue({
             this.activeModal = '';
         },
         loadFetch: function(search) {
+            var branch = this.onlyProduction ? 'master' : '';
             var self = this;
-            fetch(endpoint+'?package='+this.search, {
+            fetch(endpoint+'?package='+this.search+'&branch='+branch, {
                 method: 'get',
+                headers: new Headers({
+                    'x-api-key': '',
+                }),
             }).then(function(response) {
                 return response.json();
             }).then(function(json) {
