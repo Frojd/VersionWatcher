@@ -2,7 +2,7 @@ service: versionwatcher
 
 provider:
     name: aws
-    runtime: nodejs6.10
+    runtime: nodejs4.3
     profile: versionwatcher
     stage: stage
     region: eu-west-1
