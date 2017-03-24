@@ -15,6 +15,7 @@ functions:
             - http:
                 path: tracker/wp
                 method: post
+                private: true
 
     trackNode:
         handler: handlers.node
@@ -23,6 +24,7 @@ functions:
             - http:
                 path: tracker/node
                 method: post
+                private: true
 
     trackPython:
         handler: handlers.python
@@ -31,6 +33,7 @@ functions:
             - http:
                 path: tracker/python
                 method: post
+                private: true
 
     stableHandler:
         handler: handlers.stableHandler
@@ -39,25 +42,26 @@ functions:
             - http:
                 path: tracker/stable
                 method: get
+                private: true
 
 resources:
-  Resources:
-    DynamoDBIamPolicy:
-      Type: AWS::IAM::Policy
-      Properties:
+    Resources:
+        DynamoDBIamPolicy:
+            Type: AWS::IAM::Policy
+    Properties:
         PolicyName: lambda-dynamodb
         PolicyDocument:
-          Version: '2012-10-17'
-          Statement:
+            Version: '2012-10-17'
+        Statement:
             - Effect: Allow
               Action:
-                - dynamodb:PutItem
-                - dynamodb:GetItem
-                - dynamodb:Query
-                - dynamodb:Scan
-              Resource:
-                - arn:aws:dynamodb:*:*:table/VersionWatcherVersion
-                - arn:aws:dynamodb:*:*:table/VersionWatcherStable
-                - arn:aws:dynamodb:*:*:table/VersionWatcherPackage
+                  - dynamodb:PutItem
+            - dynamodb:GetItem
+            - dynamodb:Query
+            - dynamodb:Scan
+        Resource:
+            - arn:aws:dynamodb:*:*:table/VersionWatcherVersion
+            - arn:aws:dynamodb:*:*:table/VersionWatcherStable
+            - arn:aws:dynamodb:*:*:table/VersionWatcherPackage
         Roles:
-          - Ref: IamRoleLambdaExecution
+            - Ref: IamRoleLambdaExecution
