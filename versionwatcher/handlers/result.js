@@ -32,14 +32,27 @@ function stableHandler(event, context, callback) {
 
     stableReleases().then((data) => {
         let releases;
+        let items = data.Items;
 
         if (branch) {
-            releases = data.Items.filter((item) => {
+            items = items.filter((item) => {
                 return item.branch === branch;
             });
         }
 
-        releases = data.Items.map((item) => {
+        items = items.sort(function(a, b) {
+            if (a.created > b.created) {
+                return -1;
+            }
+
+            if (a.created < b.created) {
+                return 1;
+            }
+
+            return 0;
+        });
+
+        releases = items.map((item) => {
             return {
                 project: item.project,
                 version: item.version,
