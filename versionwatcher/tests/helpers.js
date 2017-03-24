@@ -14,6 +14,18 @@ class MockedDocumentClient {
         this.tables = {}
     }
 
+    scan(model, callback) {
+        callback(null, {
+            Items: this.tables[model.TableName],
+        });
+    }
+
+    query(model, callback) {
+        callback(null, {
+            Items: this.tables[model.TableName],
+        });
+    }
+
     put(model, callback) {
         let table = this.tables[model.TableName] || [];
         table.push(model.Item);
