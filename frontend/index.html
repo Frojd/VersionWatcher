@@ -14,6 +14,7 @@
                     <div class="header">{{ item.project }} <div class="ui cancel close-right button" v-on:click="hideDetailed">Close</div></div>
                     <div class="content">
                         <ul>
+                            <li>Environment: {{ item.branch === 'master' ? 'Production' : 'Stage' }}</li>
                             <li>Version: {{ item.version }}</li>
                             <li>Project: {{ item.project }}</li>
                             <li>Language: {{ item.language }}</li>
@@ -43,28 +44,29 @@
                     <p>To search for a specific package, use wordpress:4.7.2</p>
                 </div>
 
-                <div class="ui search">
-                    <div class="ui icon input">
-                        <input class="prompt" type="text" v-model="search" v-on:keyup.enter="submit" placeholder="Package...">
-                        <i class="search icon"></i>
+                <div class="ui base segment">
+                    <div class="ui search">
+                        <div class="ui icon input">
+                            <input class="prompt" type="text" v-model="search" v-on:keyup.enter="submit" placeholder="Package...">
+                            <i class="search icon"></i>
+                        </div>
+
                     </div>
-                    <div class="results"></div>
+
+                    <div class="ui divider"></div>
+
+                    <div class="ui toggle checkbox checked">
+                        <input type="checkbox" name="public" v-model="onlyProduction">
+                        <label>Only production</label>
+                    </div>
                 </div>
 
                 <div class="ui divider"></div>
 
-                <!--<div class="input-group">-->
-                <!--<input type="text" class="form-control" name="search" v-model="search" v-on:keyup.enter="submit" placeholder="Example: admin" />-->
-
-                <!--<span class="input-group-btn">-->
-                <!--<button class="btn btn-default" type="button" v-on:click="submit">Search!</button>-->
-                <!--</span>-->
-                <!--</div>-->
-
-
-                <table class="ui unstackable selectable inverted table" v-if="hasContent">
+                <table class="ui unstackable selectable table" v-if="hasContent">
                     <thead>
                         <tr>
+                            <th>Environment</th>
                             <th>Version</th>
                             <th>Project</th>
                             <th>Label</th>
@@ -74,7 +76,8 @@
                     </thead>
                     <tbody>
 
-                        <tr v-for="item in versions">
+                        <tr class="positive" v-for="item in versions">
+                            <td>{{ item.branch === 'master' ? 'Production' : 'Stage' }}</td>
                             <td>{{ item.version }}</td>
                             <td>{{ item.project }}</td>
                             <td>{{ item.label }}</td>
