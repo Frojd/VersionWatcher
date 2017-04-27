@@ -8,7 +8,10 @@ provider:
     region: eu-west-1
     apiKeys:
         - ${opt:stage}-VersionWatcher
-    environment: ${file(env.yml):${self:custom.stage}}
+    environment:
+        TABLE_VERSION: ${file(./serverless.env.yml):${opt:stage}.TABLE_VERSION}
+        TABLE_PACKAGE: ${file(./serverless.env.yml):${opt:stage}.TABLE_PACKAGE}
+        TABLE_STABLE: ${file(./serverless.env.yml):${opt:stage}.TABLE_STABLE}
 
 functions:
     trackWp:

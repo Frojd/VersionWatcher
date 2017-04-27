@@ -1,5 +1,6 @@
 'use strict';
 
+const settings = require('../settings');
 const getDocumentClient = require('../db').getDocumentClient;
 const getDoc = require('../db').getDoc;
 const filterVersionsByPackage = require('../helpers').filterVersionsByPackage;
@@ -8,7 +9,7 @@ function stableReleases(params) {
     let docClient = getDocumentClient();
 
     var params = {
-        TableName: "VersionWatcherStable",
+        TableName: settings.TABLE_STABLE.
     };
 
     return new Promise(
