@@ -1,6 +1,6 @@
 # VersionWatcher
 
-This is a tool for keeping track on project dependecies.
+This is a tool for keeping track on project dependencies.
 
 ## Usage (Tracking)
 
@@ -48,12 +48,8 @@ When tracking wordpress we need to both install wp-cli, composer and wordpress.
           - ...
         post:
             # Track dependencies
-            - |
-              PROJECT="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" &&
-              VERSION=${CIRCLE_TAG:-$CIRCLE_SHA1} &&
-              WP_VERSION=$(./wp-cli.phar core version) &&
-              URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/wp?project=$PROJECT&version=$VERSION&wpversion=$WP_VERSION&branch=$CIRCLE_BRANCH&commit=$CIRCLE_SHA1" &&
-              curl -X POST $URL -H "Content-Type: application/json; charset=utf-8" -d $(./wp-cli.phar plugin list --format=json)
+            - curl -O https://raw.githubusercontent.com/Frojd/VersionWatcher/master/tools/track.sh
+            - chmod +x ./track.sh && ./track.sh wordpress
     ```
 
 ### Wordpress Classic on Circle CI
@@ -83,12 +79,8 @@ When tracking wordpress we need to both install wp-cli and wordpress.
           - ...
         post:
             # Track dependencies
-            - |
-              PROJECT="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" &&
-              VERSION=${CIRCLE_TAG:-$CIRCLE_SHA1} &&
-              WP_VERSION=$(./wp-cli.phar core version) &&
-              URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/wp?project=$PROJECT&version=$VERSION&wpversion=$WP_VERSION&branch=$CIRCLE_BRANCH&commit=$CIRCLE_SHA1" &&
-              curl -X POST $URL -H "Content-Type: application/json; charset=utf-8" -d $(./wp-cli.phar plugin list --format=json)
+            - curl -O https://raw.githubusercontent.com/Frojd/VersionWatcher/master/tools/track.sh
+            - chmod +x ./track.sh && ./track.sh wordpress
     ```
 
 ### Python on Circle CI
@@ -101,13 +93,8 @@ When tracking wordpress we need to both install wp-cli and wordpress.
             - ...
         post:
             # Track dependencies
-            - |
-            LABEL="django" &&
-            PROJECT="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" &&
-            VERSION=${CIRCLE_TAG:-$CIRCLE_SHA1} &&
-            pip freeze > post-requirements.txt &&
-            URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/python?project=$PROJECT&version=$VERSION&label=$LABEL&branch=$CIRCLE_BRANCH&commit=$CIRCLE_SHA1" &&
-            curl -X POST $URL -H "Content-Type: text/plain; charset=utf-8" --data-binary @post-requirements.txt
+            - curl -O https://raw.githubusercontent.com/Frojd/VersionWatcher/master/tools/track.sh
+            - chmod +x ./track.sh && ./track.sh python django
     ```
 
 The parameter `LABEL` is optional and should refer to the framework or cms in use (Example: `wagtail`, `django`, `flask`)
@@ -123,11 +110,8 @@ test:
         - ...
     post:
         # Track dependencies
-        - |
-          PROJECT="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME" &&
-          VERSION=${CIRCLE_TAG:-$CIRCLE_SHA1} &&
-          URL="https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/node?project=$PROJECT&version=$VERSION&branch=$CIRCLE_BRANCH&commit=$CIRCLE_SHA1" &&
-          curl -X POST $URL -H "Content-Type: application/json; charset=utf-8" -d @package.json
+        - curl -O https://raw.githubusercontent.com/Frojd/VersionWatcher/master/tools/track.sh
+        - chmod +x ./track.sh && ./track.sh node
 ```
 
 ### C#
