@@ -1,0 +1,12 @@
+.ui.scrolling {
+    overflow: scroll;
+}
+
+.ui.modal-top {
+    top: 0;
+    bottom: 0;
+}
+
+.ui.close-right {
+    float: right;
+}
