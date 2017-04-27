@@ -7,7 +7,7 @@ provider:
     stage: stage
     region: eu-west-1
     apiKeys:
-        - VersionWatcher
+        - ${opt:stage}-VersionWatcher
 
 functions:
     trackWp:
