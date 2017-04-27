@@ -1,6 +1,7 @@
 'use strict';
 
-const settings = require('../settings');
+const config = require('../config');
+const getSettings = require('../settings').getSettings;
 const getDocumentClient = require('../db').getDocumentClient;
 const getDoc = require('../db').getDoc;
 const filterVersionsByPackage = require('../helpers').filterVersionsByPackage;
@@ -9,7 +10,7 @@ function stableReleases(params) {
     let docClient = getDocumentClient();
 
     var params = {
-        TableName: settings.TABLE_STABLE.
+        TableName: getSettings().TABLE_STABLE,
     };
 
     return new Promise(
@@ -61,7 +62,7 @@ function stableHandler(event, context, callback) {
         });
 
         let promises = releases.map((item) => {
-            return getDoc({ TableName: "VersionWatcherVersion" }, item);
+            return getDoc({ TableName: getSettings().TABLE_VERSION }, item);
         });
 
         Promise.all(promises).then((values) => {

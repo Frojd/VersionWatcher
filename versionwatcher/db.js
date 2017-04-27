@@ -1,10 +1,10 @@
 'use strict';
 
-const settings = require('./settings');
+const config = require('./config');
 
 function getDocumentClient() {
-    if (settings.CUSTOM_DOCUMENT_CLIENT) {
-        return settings.CUSTOM_DOCUMENT_CLIENT;
+    if (config.CUSTOM_DOCUMENT_CLIENT) {
+        return config.CUSTOM_DOCUMENT_CLIENT;
     }
 
     const AWS = require('aws-sdk');
