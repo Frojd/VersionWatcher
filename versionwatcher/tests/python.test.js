@@ -3,17 +3,18 @@
 
 const assert = require('assert');
 const helpers = require('./helpers');
-const settings = require('../settings');
+const config = require('../config');
+const getSettings = require('../settings').getSettings;
 const python = require('../handlers/trackers/python');
 
 
 describe('Test python tracker', () => {
     beforeEach(function() {
-        settings.CUSTOM_DOCUMENT_CLIENT = new helpers.MockedDocumentClient();
+        config.CUSTOM_DOCUMENT_CLIENT = new helpers.MockedDocumentClient();
     });
 
     afterEach(function() {
-        settings.CUSTOM_DOCUMENT_CLIENT = undefined;
+        config.CUSTOM_DOCUMENT_CLIENT = undefined;
     });
 
     describe('Test pip parsing', function() {
@@ -81,8 +82,8 @@ describe('Test python tracker', () => {
                 },
                 body: packages,
             }), null, (error, result) => {
-                const tables = settings.CUSTOM_DOCUMENT_CLIENT.tables;
-                const table = tables['VersionWatcherVersion'];
+                const tables = config.CUSTOM_DOCUMENT_CLIENT.tables;
+                const table = tables[getSettings().TABLE_VERSION];
 
                 assert.equal(result.statusCode, 200);
                 assert.equal(table.length, 1);

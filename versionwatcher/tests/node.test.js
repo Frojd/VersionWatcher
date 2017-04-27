@@ -2,17 +2,18 @@
 
 const assert = require('assert');
 const helpers = require('./helpers');
-const settings = require('../settings');
+const config = require('../config');
+const getSettings = require('../settings').getSettings;
 const node = require('../handlers/trackers/node');
 
 
 describe('Test node tracker', () => {
     beforeEach(function() {
-        settings.CUSTOM_DOCUMENT_CLIENT = new helpers.MockedDocumentClient();
+        config.CUSTOM_DOCUMENT_CLIENT = new helpers.MockedDocumentClient();
     });
 
     afterEach(function() {
-        settings.CUSTOM_DOCUMENT_CLIENT = undefined;
+        config.CUSTOM_DOCUMENT_CLIENT = undefined;
     });
 
     describe('Test node tracker', function() {
@@ -40,11 +41,12 @@ describe('Test node tracker', () => {
                 },
                 body: JSON.stringify(packageData),
             }), null, (error, result) => {
-                const tables = settings.CUSTOM_DOCUMENT_CLIENT.tables;
-                const table = tables['VersionWatcherVersion'];
+                const tables = config.CUSTOM_DOCUMENT_CLIENT.tables;
+                const table = tables[getSettings().TABLE_VERSION];
 
                 assert.equal(result.statusCode, 200);
                 assert.equal(table.length, 1);
+
 
                 assert.equal(table[0].project, 'Frojd/Client-Project');
                 assert.equal(table[0].version, 'v1.0.0');
@@ -81,10 +83,10 @@ describe('Test node tracker', () => {
                 },
                 body: JSON.stringify(packageData),
             }), null, (error, result) => {
-                const tables = settings.CUSTOM_DOCUMENT_CLIENT.tables;
-                const stableTable = tables['VersionWatcherStable'];
-                const packagesTable = tables['VersionWatcherPackage'];
-                const table = tables['VersionWatcherVersion'];
+                const tables = config.CUSTOM_DOCUMENT_CLIENT.tables;
+                const stableTable = tables[getSettings().TABLE_STABLE];
+                const packagesTable = tables[getSettings().TABLE_PACKAGE];
+                const table = tables[getSettings().TABLE_VERSION];
 
                 assert.equal(result.statusCode, 200);
                 assert.equal(stableTable.length, 1);

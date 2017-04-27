@@ -7,7 +7,11 @@ provider:
     stage: stage
     region: eu-west-1
     apiKeys:
-        - VersionWatcher
+        - ${opt:stage}-VersionWatcher
+    environment:
+        TABLE_VERSION: ${file(./serverless.env.yml):${opt:stage}.TABLE_VERSION}
+        TABLE_PACKAGE: ${file(./serverless.env.yml):${opt:stage}.TABLE_PACKAGE}
+        TABLE_STABLE: ${file(./serverless.env.yml):${opt:stage}.TABLE_STABLE}
 
 functions:
     trackWp:
@@ -62,8 +66,11 @@ resources:
                 - dynamodb:Query
                 - dynamodb:Scan
               Resource:
-                - arn:aws:dynamodb:*:*:table/VersionWatcherVersion
-                - arn:aws:dynamodb:*:*:table/VersionWatcherStable
-                - arn:aws:dynamodb:*:*:table/VersionWatcherPackage
+                - arn:aws:dynamodb:*:*:table/stage-VersionWatcherVersion
+                - arn:aws:dynamodb:*:*:table/stage-VersionWatcherStable
+                - arn:aws:dynamodb:*:*:table/stage-VersionWatcherPackage
+                - arn:aws:dynamodb:*:*:table/prod-VersionWatcherVersion
+                - arn:aws:dynamodb:*:*:table/prod-VersionWatcherStable
+                - arn:aws:dynamodb:*:*:table/prod-VersionWatcherPackage
         Roles:
           - Ref: IamRoleLambdaExecution

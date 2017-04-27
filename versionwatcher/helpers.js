@@ -1,6 +1,8 @@
 'use strict';
 
 const putDoc = require('./db').putDoc;
+const config = require('./config');
+const getSettings = require('./settings').getSettings;
 
 function addPackage(params) {
     const item = {
@@ -10,7 +12,7 @@ function addPackage(params) {
         version: params.packageVersion,
     };
 
-    return putDoc({ TableName: 'VersionWatcherPackage' }, item);
+    return putDoc({ TableName: getSettings().TABLE_PACKAGE }, item);
 }
 
 function track(params) {
@@ -34,7 +36,7 @@ function track(params) {
         created: params.created || Math.floor((new Date).getTime()/1000),
     }
 
-    return putDoc({ TableName: 'VersionWatcherVersion' }, item);
+    return putDoc({ TableName: getSettings().TABLE_VERSION }, item);
 }
 
 function isStable(params) {
@@ -50,7 +52,7 @@ function trackStable(params) {
         created: params.created || Math.floor((new Date).getTime()/1000),
     };
 
-    return putDoc({ TableName: 'VersionWatcherStable' }, item);
+    return putDoc({ TableName: getSettings().TABLE_STABLE }, item);
 }
 
 function filterVersionsByPackage(versions, packageName) {
