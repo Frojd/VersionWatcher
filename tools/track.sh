@@ -4,13 +4,12 @@
 # Usage example: ./track.sh python django
 
 CMD=$1
-SERVICE_DOMAIN=https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com
 
+SERVICE_DOMAIN=${TRACKER_API:=https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com}
 PROJECT="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
 VERSION=${CIRCLE_TAG:-$CIRCLE_SHA1}
 
-# TODO: Add check to make sure TRACKER_API_KEY exist
-# TODO: Make it possible to override service domain
+if [ -z "$TRACKER_API_KEY" ]; then echo "Error: Missing TRACKER_API_KEY value"; exit; fi
 
 case "$CMD" in
     "wordpress" )
