@@ -8,6 +8,7 @@ provider:
     region: eu-west-1
     apiKeys:
         - ${opt:stage}-VersionWatcher
+    environment: ${file(env.yml):${self:custom.stage}}
 
 functions:
     trackWp:
