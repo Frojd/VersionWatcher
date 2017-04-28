@@ -4,7 +4,7 @@
 const assert = require('assert');
 
 const helpers = require('./helpers');
-const corsHandler = require('../handlers/corsProxy').corsHandler;
+const corsHandler = require('../handlers/corsproxy').corsHandler;
 
 describe('Test cors proxy', () => {
     describe('Cors proxy handler', function() {
