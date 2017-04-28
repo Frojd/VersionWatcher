@@ -16,6 +16,9 @@ var app = new Vue({
         }
     },
     methods: {
+        timeFromNow: function(e) {
+            return moment(e, 'X').fromNow();
+        },
         showDetailed: function(e) {
             this.activeModal = e;
         },
