@@ -50,6 +50,15 @@ functions:
                 method: get
                 private: true
 
+    corsProxyHandler:
+        handler: handlers.corsHandler
+        description: Small proxy to bypass cors for frontend
+        events:
+            - http:
+                path: tracker/cors
+                method: get
+                private: true
+
 resources:
   Resources:
     DynamoDBIamPolicy:
