@@ -1,0 +1,76 @@
+service: versionwatcher
+
+provider:
+    name: aws
+    runtime: nodejs4.3
+    profile: versionwatcher
+    stage: stage
+    region: eu-west-1
+    apiKeys:
+        - ${opt:stage}-VersionWatcher
+    environment:
+        TABLE_VERSION: ${file(./serverless.env.yml):${opt:stage}.TABLE_VERSION}
+        TABLE_PACKAGE: ${file(./serverless.env.yml):${opt:stage}.TABLE_PACKAGE}
+        TABLE_STABLE: ${file(./serverless.env.yml):${opt:stage}.TABLE_STABLE}
+
+functions:
+    trackWp:
+        handler: handlers.wp
+        description: Track Wordpress dependencies
+        events:
+            - http:
+                path: tracker/wp
+                method: post
+                private: true
+
+    trackNode:
+        handler: handlers.node
+        description: Track Node.js dependencies
+        events:
+            - http:
+                path: tracker/node
+                method: post
+                private: true
+
+    trackPython:
+        handler: handlers.python
+        description: Track python dependencies
+        events:
+            - http:
+                path: tracker/python
+                method: post
+                private: true
+
+    stableHandler:
+        handler: handlers.stableHandler
+        description: List stable versions
+        events:
+            - http:
+                path: tracker/stable
+                method: get
+                private: true
+
+resources:
+  Resources:
+    DynamoDBIamPolicy:
+      Type: AWS::IAM::Policy
+      Properties:
+        PolicyName: lambda-dynamodb
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - dynamodb:PutItem
+                - dynamodb:GetItem
+                - dynamodb:Query
+                - dynamodb:Scan
+              Resource:
+                - arn:aws:dynamodb:*:*:table/stage-VersionWatcherVersion
+                - arn:aws:dynamodb:*:*:table/stage-VersionWatcherStable
+                - arn:aws:dynamodb:*:*:table/stage-VersionWatcherPackage
+                - arn:aws:dynamodb:*:*:table/prod-VersionWatcherVersion
+                - arn:aws:dynamodb:*:*:table/prod-VersionWatcherStable
+                - arn:aws:dynamodb:*:*:table/prod-VersionWatcherPackage
+        Roles:
+          - Ref: IamRoleLambdaExecution

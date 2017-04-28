@@ -1,0 +1,97 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.css">
+
+        <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    </head>
+    <body>
+        <div id="app">
+            <div class="modals">
+                <div v-for="item in versions" class="ui standard scrolling active modal modal-top" v-if="activeModal === item.project+':'+item.version">
+                    <div class="header">{{ item.project }} <div class="ui cancel close-right button" v-on:click="hideDetailed">Close</div></div>
+                    <div class="content">
+                        <ul>
+                            <li>Environment: {{ item.branch === 'master' ? 'Production' : 'Stage' }}</li>
+                            <li>Version: {{ item.version }}</li>
+                            <li>Project: {{ item.project }}</li>
+                            <li>Language: {{ item.language }}</li>
+                            <li>Branch: {{ item.branch }}</li>
+                            <li>Label: {{ item.label }}</li>
+                            <li>Commit: {{ item.commit }}</li>
+                        </ul>
+                        <pre>{{ item.packages }}</pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ui container" style="padding-top: 20px;">
+
+                <h2 class="ui center icon header" style="width: 100%;">
+                    <i class="settings icon"></i>
+                    <div class="content">
+                        Version Watcher
+                        <div class="sub header">Browse and search for the latest releases</div>
+                    </div>
+                </h2>
+
+                <div class="ui message">
+                    <div class="header">
+                        Search advice
+                    </div>
+                    <p>To search for a specific package, use wordpress:4.7.2</p>
+                </div>
+
+                <div class="ui base segment">
+                    <div class="ui search">
+                        <div class="ui icon input">
+                            <input class="prompt" type="text" v-model="search" v-on:keyup.enter="submit" placeholder="Package...">
+                            <i class="search icon"></i>
+                        </div>
+
+                    </div>
+
+                    <div class="ui divider"></div>
+
+                    <div class="ui toggle checkbox checked">
+                        <input type="checkbox" name="public" v-model="onlyProduction">
+                        <label>Only production</label>
+                    </div>
+                </div>
+
+                <div class="ui divider"></div>
+
+                <table class="ui unstackable selectable table" v-if="hasContent">
+                    <thead>
+                        <tr>
+                            <th>Environment</th>
+                            <th>Version</th>
+                            <th>Project</th>
+                            <th>Label</th>
+                            <th>Created</th>
+                            <th class="right aligned"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        <tr class="positive" v-for="item in versions">
+                            <td>{{ item.branch === 'master' ? 'Production' : 'Stage' }}</td>
+                            <td>{{ item.version }}</td>
+                            <td>{{ item.project }}</td>
+                            <td>{{ item.label }}</td>
+                            <td>{{ item.created }}</td>
+                            <td class="right aligned"><a v-on:click="showDetailed(item.project+':'+item.version)">Show</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+
+            </div>
+        </div>
+
+        <link rel="stylesheet" href="./app.css">
+        <script src="./app.js"></script>
+    </body>
+</html>

@@ -1,0 +1,4 @@
+{
+    "endpoint": "https://yourownlambdagateway.execute-api.eu-west-1.amazonaws.com/stage/tracker/stable",
+    "apiKey": "yourapikey"
+}
