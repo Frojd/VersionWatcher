@@ -65,22 +65,13 @@ When tracking wordpress we need to both install wp-cli and wordpress.
 2. Copy+paste these sections into your circle.yml file.
 
     ```yml
-    dependencies:
-        override:
-            - ...
-        post:
-            # Install wordpress
-            - curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x ./wp-cli.phar
-            - ./wp-cli.phar core config --allow-root --dbname=circle_test --dbuser=ubuntu --dbhost=127.0.0.1
-            - ./wp-cli.phar core install --allow-root --admin_name=admin --admin_password=admin --admin_email=admin@example.com --url=http://exmaple.com.dev --title=WordPress
-
     test:
         override:
           - ...
         post:
             # Track dependencies
-            - curl -O https://raw.githubusercontent.com/Frojd/VersionWatcher/master/tools/track.sh
-            - chmod +x ./track.sh && ./track.sh wordpress
+            - curl -O https://raw.githubusercontent.com/Frojd/VersionWatcher/master/tools/track.sh && chmod +x ./track.sh
+            - ./track.sh wp-circle-setup && ./track.sh wordpress
     ```
 
 ### Python on Circle CI
