@@ -10,6 +10,10 @@ VERSION=${CIRCLE_TAG:-$CIRCLE_SHA1}
 if [ -z "$TRACKER_API_KEY" ]; then echo "Error: Missing TRACKER_API_KEY value"; exit; fi
 
 case "$CMD" in
+    "wp-bedrock-circle-setup" )
+        echo "Install bedrock"
+        ;;
+
     "wp-circle-setup" )
         curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x ./wp-cli.phar
         ./wp-cli.phar core config --allow-root --dbname=circle_test --dbuser=ubuntu --dbhost=127.0.0.1
