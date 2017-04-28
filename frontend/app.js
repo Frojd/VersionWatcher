@@ -1,16 +1,14 @@
-var endpoint = 'https://ei5v6h5fz6.execute-api.eu-west-1.amazonaws.com/stage/tracker/stable';
-
 var app = new Vue({
     el: '#app',
     data: {
         search: '',
-        onlyProduction: true,
+        onlyProduction: false,
         activeModal: '',
         hasContent: false,
         versions: [],
     },
     mounted: function () {
-        this.loadFetch(this.search);
+        this.loadSettings();
     },
     watch: {
         onlyProduction: function(oldVal, newVal) {
@@ -24,13 +22,27 @@ var app = new Vue({
         hideDetailed: function(e) {
             this.activeModal = '';
         },
+        loadSettings: function(cb) {
+            var self = this;
+            fetch('conf.jsonx', {
+                method: 'get'
+            }).then(function(response) {
+                return response.json();
+            }).then(function(json) {
+                self.apiKey = json.apiKey;
+                self.endpoint = json.endpoint;
+                self.loadFetch(self.search);
+            }).catch(function(err) {
+                console.log(err);
+            });
+        },
         loadFetch: function(search) {
             var branch = this.onlyProduction ? 'master' : '';
             var self = this;
-            fetch(endpoint+'?package='+this.search+'&branch='+branch, {
+            fetch(self.endpoint+'?package='+this.search+'&branch='+branch, {
                 method: 'get',
                 headers: new Headers({
-                    'x-api-key': '',
+                    'x-api-key': self.apiKey,
                 }),
             }).then(function(response) {
                 return response.json();

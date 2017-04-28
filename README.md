@@ -141,6 +141,13 @@ This application is built on the serverless framework, hosted on aws, utilizing 
 
 - `npm test`
 
+## Frontend
+
+    cd frontend
+    cp conf.json.example conf.json
+
+Edit conf.json and add your own apikey and endpoint address
+Run a httpserver inside the folder
 
 ## Roadmap
 

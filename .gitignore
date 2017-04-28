@@ -6,3 +6,6 @@ npm-debug.log
 # Temporary folder
 tmp/
 temp/
+
+# Frontend conf
+frontend/conf.json
