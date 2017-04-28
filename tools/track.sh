@@ -10,6 +10,12 @@ VERSION=${CIRCLE_TAG:-$CIRCLE_SHA1}
 if [ -z "$TRACKER_API_KEY" ]; then echo "Error: Missing TRACKER_API_KEY value"; exit; fi
 
 case "$CMD" in
+    "wp-circle-setup" )
+        curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x ./wp-cli.phar
+        ./wp-cli.phar core config --allow-root --dbname=circle_test --dbuser=ubuntu --dbhost=127.0.0.1
+        ./wp-cli.phar core install --allow-root --admin_name=admin --admin_password=admin --admin_email=admin@example.com --url=http://exmaple.com.dev --title=WordPress
+        ;;
+
     "wordpress" )
         WP_VERSION=$(./wp-cli.phar core version)
         URL="$SERVICE_DOMAIN/prod/tracker/wp?project=$PROJECT&version=$VERSION&wpversion=$WP_VERSION&branch=$CIRCLE_BRANCH&commit=$CIRCLE_SHA1"
