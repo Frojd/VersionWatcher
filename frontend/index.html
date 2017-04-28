@@ -4,7 +4,6 @@
 
         <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.css">
-
         <script src="https://unpkg.com/vue/dist/vue.js"></script>
     </head>
     <body>
@@ -76,10 +75,10 @@
                     </thead>
                     <tbody>
 
-                        <tr class="positive" v-for="item in versions">
+                        <tr v-bind:class="item.branch === 'master' ? 'positive' : ''" v-for="item in versions">
                             <td>{{ item.branch === 'master' ? 'Production' : 'Stage' }}</td>
-                            <td>{{ item.version }}</td>
-                            <td>{{ item.project }}</td>
+                            <td><a v-bind:href="'https://github.com/'+item.project+'/commit/'+item.commit">{{ item.version.length > 7 ? item.version.substr(0, 10)+'...' : item.version }}</a></td>
+                            <td><a v-bind:href="'https://github.com/'+item.project">{{ item.project }}</a></td>
                             <td>{{ item.label }}</td>
                             <td>{{ item.created }}</td>
                             <td class="right aligned"><a v-on:click="showDetailed(item.project+':'+item.version)">Show</a></td>
