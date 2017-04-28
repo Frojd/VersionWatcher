@@ -162,8 +162,8 @@ This application is built on the serverless framework, hosted on aws, utilizing 
     - [x] Show latest versions
 - [x] Implement api keys
 - [x] Sort result by date
-- [ ] Include x-api key in implementation examples
-- [ ] Make production release of tool
+- [x] Include x-api key in implementation examples
+- [x] Make production release of tool
 - [ ] Pretty print date in result listing
 - [ ] Lower lambda memory
 - [ ] Update Node.js version
