@@ -2,7 +2,7 @@ var app = new Vue({
     el: '#app',
     data: {
         search: '',
-        onlyProduction: false,
+        onlyProduction: true,
         activeModal: '',
         hasContent: false,
         versions: [],
