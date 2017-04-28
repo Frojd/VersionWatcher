@@ -30,5 +30,3 @@ function corsHandler(event, context, callback) {
 module.exports = {
     corsHandler,
 }
-
-corsHandler();
