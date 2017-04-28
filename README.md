@@ -33,23 +33,13 @@ When tracking wordpress we need to both install wp-cli, composer and wordpress.
 3. Copy+paste these sections into your circle.yml file.
 
     ```yml
-    dependencies:
-        override:
-            - composer install
-            - ...
-        post:
-            # Install wordpress
-            - curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x ./wp-cli.phar
-            - mv test.env .env
-            - ./wp-cli.phar core install --allow-root --admin_name=admin --admin_password=admin --admin_email=admin@example.com --url=http://exmaple.com.dev --title=WordPress
-
     test:
         override:
           - ...
         post:
             # Track dependencies
-            - curl -O https://raw.githubusercontent.com/Frojd/VersionWatcher/master/tools/track.sh
-            - chmod +x ./track.sh && ./track.sh wordpress
+            - curl -O https://raw.githubusercontent.com/Frojd/VersionWatcher/develop/tools/track.sh && chmod +x ./track.sh
+            - ./track.sh wp-bedrock-circle-setup && ./track.sh wordpress
     ```
 
 ### Wordpress Classic on Circle CI
@@ -84,8 +74,8 @@ When tracking wordpress we need to both install wp-cli and wordpress.
             - ...
         post:
             # Track dependencies
-            - curl -O https://raw.githubusercontent.com/Frojd/VersionWatcher/master/tools/track.sh
-            - chmod +x ./track.sh && ./track.sh python django
+            - curl -O https://raw.githubusercontent.com/Frojd/VersionWatcher/master/tools/track.sh && chmod +x ./track.sh
+            - ./track.sh python django
     ```
 
 The parameter `LABEL` is optional and should refer to the framework or cms in use (Example: `wagtail`, `django`, `flask`)
@@ -101,8 +91,8 @@ test:
         - ...
     post:
         # Track dependencies
-        - curl -O https://raw.githubusercontent.com/Frojd/VersionWatcher/master/tools/track.sh
-        - chmod +x ./track.sh && ./track.sh node
+        - curl -O https://raw.githubusercontent.com/Frojd/VersionWatcher/master/tools/track.sh && chmod +x ./track.sh
+        - ./track.sh node
 ```
 
 ### C#
