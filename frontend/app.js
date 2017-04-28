@@ -24,7 +24,7 @@ var app = new Vue({
         },
         loadSettings: function(cb) {
             var self = this;
-            fetch('conf.jsonx', {
+            fetch('conf.json', {
                 method: 'get'
             }).then(function(response) {
                 return response.json();

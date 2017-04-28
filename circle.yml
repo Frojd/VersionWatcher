@@ -16,10 +16,10 @@ deployment:
         branch: develop
         commands:
             - cd versionwatcher && ../node_modules/serverless/bin/serverless deploy --stage stage
-            - aws s3 sync ../frontend s3://https://s3-eu-west-1.amazonaws.com/versionwatcher/Stage/
+            - aws s3 sync ./frontend s3://versionwatcher/Stage/
 
     prod:
         tag: /v[0-9]+(\.[0-9]+)*/
         commands:
             - cd versionwatcher && ../node_modules/serverless/bin/serverless deploy --stage prod
-            - aws s3 sync ../frontend s3://https://s3-eu-west-1.amazonaws.com/versionwatcher/Prod/
+            - aws s3 sync ./frontend s3://versionwatcher/Prod/
