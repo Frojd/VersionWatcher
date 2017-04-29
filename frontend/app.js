@@ -16,6 +16,17 @@ var app = new Vue({
         }
     },
     methods: {
+        getPackageVersion: function(item, package) {
+            let matches = item.packages.filter(function(x) {
+                return (x.name.toLowerCase() === package.toLowerCase());
+            });
+
+            if (!matches.length) {
+                return '?';
+            }
+
+            return matches[0].version;
+        },
         timeFromNow: function(e) {
             return moment(e, 'X').fromNow();
         },
