@@ -152,7 +152,7 @@ Run a httpserver inside the folder
 - [x] Sort result by date
 - [x] Include x-api key in implementation examples
 - [x] Make production release of tool
-- [ ] Pretty print date in result listing
+- [x] Pretty print date in result listing
 - [ ] Lower lambda memory
 - [ ] Update Node.js version
 - [ ] Error management in request handler
