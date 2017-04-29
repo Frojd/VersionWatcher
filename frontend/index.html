@@ -64,14 +64,14 @@
 
                 <div class="ui divider"></div>
 
-                <table class="ui unstackable selectable table" v-if="hasContent">
+                <table class="ui unstackable sortable selectable table" v-if="hasContent">
                     <thead>
                         <tr>
-                            <th>Environment</th>
+                            <th v-on:click="changeSorting('branch')" v-bind:class="applySortingClass('branch')">Environment</th>
                             <th>Version</th>
-                            <th>Project</th>
-                            <th>Label</th>
-                            <th>Created</th>
+                            <th v-on:click="changeSorting('project')" v-bind:class="applySortingClass('project')">Project</th>
+                            <th v-on:click="changeSorting('label')" v-bind:class="applySortingClass('label')">Label</th>
+                            <th v-on:click="changeSorting('created')" v-bind:class="applySortingClass('created')">Created</th>
                             <th class="right aligned"></th>
                         </tr>
                     </thead>
