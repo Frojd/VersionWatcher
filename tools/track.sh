@@ -34,6 +34,7 @@ case "$CMD" in
         pip freeze > post-requirements.txt
         URL="$SERVICE_DOMAIN/prod/tracker/python?project=$PROJECT&version=$VERSION&label=$LABEL&branch=$CIRCLE_BRANCH&commit=$CIRCLE_SHA1"
         curl -X POST $URL -H "Content-Type: text/plain; charset=utf-8" -H "x-api-key: $TRACKER_API_KEY" --data-binary @post-requirements.txt
+        rm post-requirements.txt
         ;;
 
     "node" )
