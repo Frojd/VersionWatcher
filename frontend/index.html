@@ -14,16 +14,28 @@
                 <div v-for="item in versions" class="ui standard scrolling active modal modal-top" v-if="activeModal === item.project+':'+item.version">
                     <div class="header">{{ item.project }} <div class="ui cancel close-right button" v-on:click="hideDetailed">Close</div></div>
                     <div class="content">
-                        <ul>
-                            <li>Environment: {{ item.branch === 'master' ? 'Production' : 'Stage' }}</li>
-                            <li>Version: {{ item.version }}</li>
-                            <li>Project: {{ item.project }}</li>
-                            <li>Language: {{ item.language }}</li>
-                            <li>Branch: {{ item.branch }}</li>
-                            <li>Label: {{ item.label }}</li>
-                            <li>Commit: {{ item.commit }}</li>
-                        </ul>
-                        <pre>{{ item.packages }}</pre>
+                        <div class="list">
+                            <div class="item">Environment: {{ item.branch === 'master' ? 'Production' : 'Stage' }}</div>
+                            <div class="item">Version: {{ item.version }}</div>
+                            <div class="item">Language: {{ item.languages }}</div>
+                            <div class="item">Branch: {{ item.branch }}</div>
+                            <div class="item">Label: {{ item.label }}</div>
+                            <div class="item">Commit: {{ item.commit }}</div>
+                        </div>
+                        <table class="ui table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Version</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in item.packages">
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.version }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -76,7 +88,6 @@
                         </tr>
                     </thead>
                     <tbody>
-
                         <tr v-bind:class="item.branch === 'master' ? 'positive' : ''" v-for="item in versions">
                             <td>{{ item.branch === 'master' ? 'Production' : 'Stage' }}</td>
                             <td><a v-bind:href="'https://github.com/'+item.project+'/commit/'+item.commit">{{ item.version.length > 7 ? item.version.substr(0, 10)+'...' : item.version }}</a></td>
