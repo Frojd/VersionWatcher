@@ -49,7 +49,8 @@ EOL
         ;;
 
     "node" )
-        URL="$SERVICE_DOMAIN/prod/tracker/node?project=$PROJECT&version=$VERSION&branch=$CIRCLE_BRANCH&commit=$CIRCLE_SHA1"
+        LABEL=${2:-node}
+        URL="$SERVICE_DOMAIN/prod/tracker/node?project=$PROJECT&version=$VERSION&label=$LABEL&branch=$CIRCLE_BRANCH&commit=$CIRCLE_SHA1"
         curl -X POST $URL -H "Content-Type: application/json; charset=utf-8" -H "x-api-key: $TRACKER_API_KEY" -d @package.json
         ;;
 esac

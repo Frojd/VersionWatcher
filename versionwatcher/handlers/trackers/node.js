@@ -5,6 +5,7 @@ const helpers = require('../../helpers')
 function handler(event, context, callback) {
     const packageJson = JSON.parse(event.body);
     const project = event.queryStringParameters.project;
+    const label = event.queryStringParameters.label || 'node';
     const version = event.queryStringParameters.version;
     const branch = event.queryStringParameters.branch;
     const commit = event.queryStringParameters.commit;
@@ -35,7 +36,7 @@ function handler(event, context, callback) {
             branch,
             commit,
             packages,
-            label: 'node',
+            label: label,
             languages: 'javascript',
         }),
         helpers.isStable({project, branch, version}) ? helpers.trackStable({
