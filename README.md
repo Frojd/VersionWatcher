@@ -129,7 +129,12 @@ This application is built on the serverless framework, hosted on aws, utilizing 
 
 ### Deploying
 
-- `npm test`
+First make sure you have all the correct aws keys setup, the run
+
+- cd versionwatcher && ../node_modules/serverless/bin/serverless deploy --stage stage
+- aws s3 sync ./frontend s3://versionwatcher/Stage/
+
+(Change to Prod if creating a production release)
 
 ## Frontend
 
