@@ -11,6 +11,17 @@ if [ -z "$TRACKER_API_KEY" ]; then echo "Error: Missing TRACKER_API_KEY value"; 
 
 case "$CMD" in
     "wp-bedrock-circle-setup" )
+        if [ ! -f "test.env" ]; then
+            cat > test.env <<EOL
+DB_USER=ubuntu
+DB_NAME=circle_test
+DB_PASSWORD=
+DB_HOST=127.0.0.1
+WP_HOME=
+WP_SITEURL=
+EOL
+        fi
+
         mv test.env .env
         composer install
         curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x ./wp-cli.phar
