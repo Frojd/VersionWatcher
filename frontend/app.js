@@ -6,6 +6,8 @@ var app = new Vue({
         activeModal: '',
         hasContent: false,
         versions: [],
+        sortField: 'created',
+        sortOrder: true
     },
     mounted: function () {
         this.loadSettings();
@@ -16,6 +18,20 @@ var app = new Vue({
         }
     },
     methods: {
+        getPackageVersion: function(item, package) {
+            let matches = item.packages.filter(function(x) {
+                return (x.name.toLowerCase() === package.toLowerCase());
+            });
+
+            if (!matches.length) {
+                return '?';
+            }
+
+            return matches[0].version;
+        },
+        timeFromNow: function(e) {
+            return moment(e, 'X').fromNow();
+        },
         showDetailed: function(e) {
             this.activeModal = e;
         },
@@ -36,6 +52,38 @@ var app = new Vue({
                 console.log(err);
             });
         },
+        applySortingClass: function(field) {
+            if (this.sortField !== field) {
+                return "";
+            }
+
+            return "sorted " + (this.sortOrder ? 'ascending' : 'descending');
+        },
+        changeSorting: function(field, order) {
+            field = field || 'created';
+            order = !this.sortOrder;
+
+            this.sortField = field;
+            this.sortOrder = order;
+
+            this.updateSorting(this.versions, field, order);
+        },
+        updateSorting: function(items, field, order) {
+            items = items.sort(function(a, b) {
+                let valueA = a[field];
+                let valueB = b[field];
+
+                if (valueA < valueB) {
+                    return order ? -1 : 1;
+                }
+                if (valueA > valueB) {
+                    return order ? 1 : -1;
+                }
+                return 0;
+            });
+
+            return items;
+        },
         loadFetch: function(search) {
             var branch = this.onlyProduction ? 'master' : '';
             var self = this;
@@ -47,7 +95,7 @@ var app = new Vue({
             }).then(function(response) {
                 return response.json();
             }).then(function(json) {
-                self.versions = json;
+                self.versions = self.updateSorting(json);
                 self.hasContent = json.length > 0;
             }).catch(function(err) {
                 console.log(err);

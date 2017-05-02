@@ -5,6 +5,7 @@
         <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.css">
 
+        <script src="https://momentjs.com/downloads/moment.min.js"></script>
         <script src="https://unpkg.com/vue/dist/vue.js"></script>
     </head>
     <body>
@@ -13,16 +14,28 @@
                 <div v-for="item in versions" class="ui standard scrolling active modal modal-top" v-if="activeModal === item.project+':'+item.version">
                     <div class="header">{{ item.project }} <div class="ui cancel close-right button" v-on:click="hideDetailed">Close</div></div>
                     <div class="content">
-                        <ul>
-                            <li>Environment: {{ item.branch === 'master' ? 'Production' : 'Stage' }}</li>
-                            <li>Version: {{ item.version }}</li>
-                            <li>Project: {{ item.project }}</li>
-                            <li>Language: {{ item.language }}</li>
-                            <li>Branch: {{ item.branch }}</li>
-                            <li>Label: {{ item.label }}</li>
-                            <li>Commit: {{ item.commit }}</li>
-                        </ul>
-                        <pre>{{ item.packages }}</pre>
+                        <div class="list">
+                            <div class="item">Environment: {{ item.branch === 'master' ? 'Production' : 'Stage' }}</div>
+                            <div class="item">Version: {{ item.version }}</div>
+                            <div class="item">Language: {{ item.languages }}</div>
+                            <div class="item">Branch: {{ item.branch }}</div>
+                            <div class="item">Label: {{ item.label }}</div>
+                            <div class="item">Commit: {{ item.commit }}</div>
+                        </div>
+                        <table class="ui table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Version</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in item.packages">
+                                    <td>{{ item.name }}</td>
+                                    <td>{{ item.version }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -63,25 +76,30 @@
 
                 <div class="ui divider"></div>
 
-                <table class="ui unstackable selectable table" v-if="hasContent">
+                <table class="ui unstackable sortable selectable table" v-if="hasContent">
                     <thead>
                         <tr>
-                            <th>Environment</th>
+                            <th v-on:click="changeSorting('branch')" v-bind:class="applySortingClass('branch')">Environment</th>
                             <th>Version</th>
-                            <th>Project</th>
-                            <th>Label</th>
-                            <th>Created</th>
+                            <th v-on:click="changeSorting('project')" v-bind:class="applySortingClass('project')">Project</th>
+                            <th v-on:click="changeSorting('label')" v-bind:class="applySortingClass('label')">Label</th>
+                            <th v-on:click="changeSorting('created')" v-bind:class="applySortingClass('created')">Created</th>
                             <th class="right aligned"></th>
                         </tr>
                     </thead>
                     <tbody>
-
-                        <tr class="positive" v-for="item in versions">
+                        <tr v-bind:class="item.branch === 'master' ? 'positive' : ''" v-for="item in versions">
                             <td>{{ item.branch === 'master' ? 'Production' : 'Stage' }}</td>
-                            <td>{{ item.version }}</td>
-                            <td>{{ item.project }}</td>
-                            <td>{{ item.label }}</td>
-                            <td>{{ item.created }}</td>
+                            <td><a v-bind:href="'https://github.com/'+item.project+'/commit/'+item.commit">{{ item.version.length > 7 ? item.version.substr(0, 10)+'...' : item.version }}</a></td>
+                            <td><a v-bind:href="'https://github.com/'+item.project">{{ item.project }}</a></td>
+                            <td>
+                                <div class="ui label">
+                                    {{ item.label }} 
+                                    <div class="detail">{{ getPackageVersion(item, item.label) }}</div>
+                                </div>
+                            </td>
+
+                            <td>{{ timeFromNow(item.created) }}</td>
                             <td class="right aligned"><a v-on:click="showDetailed(item.project+':'+item.version)">Show</a></td>
                         </tr>
                     </tbody>

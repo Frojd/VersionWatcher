@@ -11,8 +11,20 @@ if [ -z "$TRACKER_API_KEY" ]; then echo "Error: Missing TRACKER_API_KEY value"; 
 
 case "$CMD" in
     "wp-bedrock-circle-setup" )
-        curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x ./wp-cli.phar
+        if [ ! -f "test.env" ]; then
+            cat > test.env <<EOL
+DB_USER=ubuntu
+DB_NAME=circle_test
+DB_PASSWORD=
+DB_HOST=127.0.0.1
+WP_HOME=
+WP_SITEURL=
+EOL
+        fi
+
         mv test.env .env
+        composer install
+        curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x ./wp-cli.phar
         ./wp-cli.phar core install --allow-root --admin_name=admin --admin_password=admin --admin_email=admin@example.com --url=http://example.com.dev --title=WordPress
         ;;
 
@@ -33,10 +45,12 @@ case "$CMD" in
         pip freeze > post-requirements.txt
         URL="$SERVICE_DOMAIN/prod/tracker/python?project=$PROJECT&version=$VERSION&label=$LABEL&branch=$CIRCLE_BRANCH&commit=$CIRCLE_SHA1"
         curl -X POST $URL -H "Content-Type: text/plain; charset=utf-8" -H "x-api-key: $TRACKER_API_KEY" --data-binary @post-requirements.txt
+        rm post-requirements.txt
         ;;
 
     "node" )
-        URL="$SERVICE_DOMAIN/prod/tracker/node?project=$PROJECT&version=$VERSION&branch=$CIRCLE_BRANCH&commit=$CIRCLE_SHA1"
+        LABEL=${2:-node}
+        URL="$SERVICE_DOMAIN/prod/tracker/node?project=$PROJECT&version=$VERSION&label=$LABEL&branch=$CIRCLE_BRANCH&commit=$CIRCLE_SHA1"
         curl -X POST $URL -H "Content-Type: application/json; charset=utf-8" -H "x-api-key: $TRACKER_API_KEY" -d @package.json
         ;;
 esac
