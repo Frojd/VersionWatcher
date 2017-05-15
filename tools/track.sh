@@ -2,7 +2,7 @@
 # Usage example: ./track.sh python django
 
 CMD=$1
-CIRCLR_BRANCH=${CIRCLE_BRANCH:-master}
+CIRCLE_BRANCH=${CIRCLE_BRANCH:-master}
 SERVICE_DOMAIN=${TRACKER_API:=https://n2t2izj4a0.execute-api.eu-west-1.amazonaws.com}
 PROJECT="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
 VERSION=${CIRCLE_TAG:-$CIRCLE_SHA1}
