@@ -14,6 +14,16 @@ provider:
         TABLE_STABLE: ${file(./serverless.env.yml):${opt:stage}.TABLE_STABLE}
 
 functions:
+    watchVersion:
+        handler: handlers.watchHandler
+        description: Inspect and notify about old package versions
+        events:
+            #- schedule: rate(2 hours)
+            - http:
+                path: tracker/watch
+                method: get
+                private: true
+
     trackWp:
         handler: handlers.wp
         description: Track Wordpress dependencies

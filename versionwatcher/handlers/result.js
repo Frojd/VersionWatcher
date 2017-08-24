@@ -5,25 +5,8 @@ const getSettings = require('../settings').getSettings;
 const getDocumentClient = require('../db').getDocumentClient;
 const getDoc = require('../db').getDoc;
 const filterVersionsByPackage = require('../helpers').filterVersionsByPackage;
+const stableReleases = require('../helpers').stableReleases;
 
-function stableReleases(params) {
-    let docClient = getDocumentClient();
-
-    var params = {
-        TableName: getSettings().TABLE_STABLE,
-    };
-
-    return new Promise(
-        (resolve, reject) => {
-            docClient.scan(params, function(err, data) {
-                if (err) {
-                    return reject(err);
-                }
-                resolve(data);
-            });
-        }
-    );
-}
 
 function stableHandler(event, context, callback) {
     let docClient = getDocumentClient();
@@ -32,7 +15,7 @@ function stableHandler(event, context, callback) {
     let branch = queryStringParameters.branch;
     let packageName = queryStringParameters.package;
 
-    stableReleases().then((data) => {
+    stableReleases(docClient).then((data) => {
         let releases;
         let items = data.Items;
 

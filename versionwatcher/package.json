@@ -1,0 +1,19 @@
+{
+  "name": "versionwatcher",
+  "version": "1.0.0",
+  "description": "VersionWatcher serverless dependecies",
+  "main": "config.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "request": "2.81.0",
+    "ramda": "0.24.1",
+    "requests": "0.2.2"
+  }
+}

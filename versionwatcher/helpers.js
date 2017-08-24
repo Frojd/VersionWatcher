@@ -87,9 +87,27 @@ function filterVersionsByPackage(versions, packageName) {
     return versions;
 }
 
+function stableReleases(docClient, params) {
+    var params = {
+        TableName: getSettings().TABLE_STABLE,
+    };
+
+    return new Promise(
+        (resolve, reject) => {
+            docClient.scan(params, function(err, data) {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(data);
+            });
+        }
+    );
+}
+
 module.exports = {
     track,
     isStable,
     trackStable,
     filterVersionsByPackage,
+    stableReleases,
 }
