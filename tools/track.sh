@@ -1,13 +1,31 @@
 #!/bin/bash
 # Usage example: ./track.sh python django
 
+containsElement () {
+    local e match="$1"
+    shift
+    for e; do [[ "$e" == "$match" ]] && return 0; done
+    return 1
+}
+
 CMD=$1
 CIRCLE_BRANCH=${CIRCLE_BRANCH:-master}
 SERVICE_DOMAIN=${TRACKER_API:=https://n2t2izj4a0.execute-api.eu-west-1.amazonaws.com}
 PROJECT="$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME"
 VERSION=${CIRCLE_TAG:-$CIRCLE_SHA1}
 
-if [ -z "$TRACKER_API_KEY" ]; then echo "Error: Missing TRACKER_API_KEY value"; exit; fi
+IGNORE_BRANCHES=$TRACKER_IGNORE_BRANCHES
+IFS=', ' read -r -a IGNORE_BRANCHES <<< "$IGNORE_BRANCHES"
+
+if [ -z "$TRACKER_API_KEY" ]; then 
+    echo "Error: Missing TRACKER_API_KEY value"; 
+    exit; 
+fi
+
+if containsElement $CIRCLE_BRANCH "${IGNORE_BRANCHES[@]}"; then
+    echo "Ignoring branch $CIRCLE_BRANCH";
+    exit;
+fi
 
 case "$CMD" in
     "wp-bedrock-circle-setup" )
