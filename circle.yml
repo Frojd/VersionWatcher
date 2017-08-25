@@ -11,17 +11,19 @@ test:
     override:
         - npm run test
 
+dependencies:
+    post:
+        - cd versionwatcher && npm install
+
 deployment:
     stage:
         branch: develop
         commands:
-            - cd versionwatcher && npm install
             - cd versionwatcher && ../node_modules/serverless/bin/serverless deploy --stage stage
             - aws s3 sync ./frontend s3://versionwatcher/Stage/
 
     prod:
         tag: /v[0-9]+(\.[0-9]+)*/
         commands:
-            - cd versionwatcher && npm install
             - cd versionwatcher && ../node_modules/serverless/bin/serverless deploy --stage prod
             - aws s3 sync ./frontend s3://versionwatcher/Prod/
