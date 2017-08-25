@@ -1,8 +1,11 @@
 'use strict';
 
+const R = require('ramda');
+
 const putDoc = require('./db').putDoc;
 const config = require('./config');
 const getSettings = require('./settings').getSettings;
+
 
 function addPackage(params) {
     const item = {
@@ -55,36 +58,70 @@ function trackStable(params) {
     return putDoc({ TableName: getSettings().TABLE_STABLE }, item);
 }
 
-function filterVersionsByPackage(versions, packageName) {
-    if (!packageName) {
-        return versions;
-    }
+const containsPackage = R.curry((status, pattern, version) => {
+    const foundItems = R.reduce((acc, c) => {
+        acc.push(
+            pattern.test(`${c.name}:${c.version}`)
+        );
+        return acc;
+    }, [], version.packages);
 
+    return R.contains(status, foundItems);
+});
+
+const inPackages = containsPackage(true);
+const notInPackages = R.curry(R.compose(R.not, containsPackage(false)));
+
+function buildMatchPattern(packageName) {
     let packageInfo = packageName.split(":");
     let name = packageInfo[0];
     let version = packageInfo[1] || '*';
+    let negate = false;
+    let pattern;
 
-    let pattern = `^${name}\\:${version}$`;
+    if (name.indexOf('!') === 0) {
+        negate = true;
+        name = name.substr(1);
+    }
+
+    pattern = `${name}\\:${version}`;
     pattern = pattern.split('*').join('(.*)');
     pattern = pattern.split('-').join('\\-');
-    pattern = new RegExp(pattern, 'i');
 
-    versions = versions.filter((version) => {
-        var found = false;
+    if (negate) {
+        pattern = `((?!${pattern}).)*`;
+    }
 
-        for (let pkg of version.packages) {
-            if (found) {
-                break;
-            }
+    pattern = `^${pattern}$`;
+    return new RegExp(pattern, 'i');
+}
 
-            let id =`${pkg.name}:${pkg.version}`;
-            found = pattern.test(id);
+function filterVersionsByPackage(name, versions) {
+    if (!name) {
+        return versions;
+    }
+
+    const pattern = buildMatchPattern(name);
+    const filterFunc = name.startsWith('!') ? notInPackages : inPackages;
+
+    return versions.filter(filterFunc(pattern));
+}
+
+function stableReleases(docClient, params) {
+    var params = {
+        TableName: getSettings().TABLE_STABLE,
+    };
+
+    return new Promise(
+        (resolve, reject) => {
+            docClient.scan(params, function(err, data) {
+                if (err) {
+                    return reject(err);
+                }
+                resolve(data);
+            });
         }
-
-        return found;
-    });
-
-    return versions;
+    );
 }
 
 module.exports = {
@@ -92,4 +129,6 @@ module.exports = {
     isStable,
     trackStable,
     filterVersionsByPackage,
+    stableReleases,
+    buildMatchPattern,
 }
