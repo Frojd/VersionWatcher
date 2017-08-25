@@ -55,7 +55,7 @@ function trackStable(params) {
     return putDoc({ TableName: getSettings().TABLE_STABLE }, item);
 }
 
-function filterVersionsByPackage(versions, packageName) {
+function filterVersionsByPackage(packageName, versions) {
     if (!packageName) {
         return versions;
     }

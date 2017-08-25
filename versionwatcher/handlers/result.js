@@ -53,7 +53,7 @@ function stableHandler(event, context, callback) {
                 return item.Item;
             });
 
-            values = filterVersionsByPackage(values, packageName);
+            values = filterVersionsByPackage(packageName, values);
 
             const response = {
                 statusCode: 200,

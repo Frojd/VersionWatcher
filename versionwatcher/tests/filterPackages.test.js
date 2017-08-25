@@ -41,31 +41,31 @@ describe('Test result endpoints', () => {
             },
         ];
 
-        items = filterVersionsByPackage(versions);
+        items = filterVersionsByPackage(null, versions);
         assert.equal(items.length, 1);
 
-        items = filterVersionsByPackage(versions, 'yoast');
+        items = filterVersionsByPackage('yoast', versions);
         assert.equal(items.length, 0);
 
-        items = filterVersionsByPackage(versions, 'wordpress');
+        items = filterVersionsByPackage('wordpress', versions);
         assert.equal(items.length, 1);
 
-        items = filterVersionsByPackage(versions, 'wordpress:');
+        items = filterVersionsByPackage('wordpress:', versions);
         assert.equal(items.length, 1);
 
-        items = filterVersionsByPackage(versions, 'wordpress:*');
+        items = filterVersionsByPackage('wordpress:*', versions);
         assert.equal(items.length, 1);
 
-        items = filterVersionsByPackage(versions, 'wordpress:5*');
+        items = filterVersionsByPackage('wordpress:5*', versions);
         assert.equal(items.length, 0);
 
-        items = filterVersionsByPackage(versions, 'wordpress:4*');
+        items = filterVersionsByPackage('wordpress:4*', versions);
         assert.equal(items.length, 1);
 
-        items = filterVersionsByPackage(versions, 'wordpress:4.5*');
+        items = filterVersionsByPackage('wordpress:4.5*', versions);
         assert.equal(items.length, 0);
 
-        items = filterVersionsByPackage(versions, 'wp-total-hacks');
+        items = filterVersionsByPackage('wp-total-hacks', versions);
         assert.equal(items.length, 1);
 
         done();
