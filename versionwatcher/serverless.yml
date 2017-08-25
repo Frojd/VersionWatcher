@@ -19,7 +19,7 @@ functions:
         handler: handlers.watchHandler
         description: Inspect and notify about old package versions
         events:
-            #- schedule: rate(2 hours)
+            - schedule: cron(* * * * *)
             - http:
                 path: tracker/watch
                 method: get
