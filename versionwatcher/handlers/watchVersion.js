@@ -27,7 +27,7 @@ const watchHandler = (event, context, callback) => {
                 return;
             }
 
-            sendIftttNotification(data.latestVersion, data.versions)
+            sendNotification(data.latestVersion, data.versions)
                 .then(status => {
                     callback(
                         null,
