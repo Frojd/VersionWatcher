@@ -138,7 +138,7 @@ const getWpVersion = R.pipe(
 );
 
 const sendIftttNotification = (latestVersion, version) => {
-    return Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         const apiKey = getSettings().IFTTT_KEY;
         const url = `https://maker.ifttt.com/trigger/version_watcher/with/key/${apiKey}`;
 
