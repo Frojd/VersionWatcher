@@ -2,7 +2,7 @@ service: versionwatcher
 
 provider:
     name: aws
-    runtime: nodejs4.3
+    runtime: nodejs6.10
     profile: versionwatcher
     stage: stage
     region: eu-west-1
@@ -20,7 +20,7 @@ functions:
         description: Inspect and notify about old package versions
         events:
             - schedule:
-                rate: rate(24 hours)
+                rate: cron(0 12 * * ? *)
             - http:
                 path: tracker/watch
                 method: get

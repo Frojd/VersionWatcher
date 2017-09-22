@@ -1,6 +1,7 @@
 'use strict';
 
 var http = require('https');
+var cors = require('../utils/cors');
 
 function corsHandler(event, context, callback) {
     let queryStringParameters = event.queryStringParameters || {};
@@ -11,11 +12,7 @@ function corsHandler(event, context, callback) {
         res.on('data', function (body) {
             const response = {
                 statusCode: 200,
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET,OPTIONS',
-                    'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'
-                },
+                headers: cors.getCorsXApiHeaders(),
                 body: body
             };
             callback(null, response)

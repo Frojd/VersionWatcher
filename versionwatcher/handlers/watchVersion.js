@@ -16,7 +16,70 @@ const stableReleases = require('../helpers').stableReleases;
 const VERSIONS_URL = 'https://api.wordpress.org/core/version-check/1.7/';
 
 
-function loadOffers(url) {
+const watchHandler = (event, context, callback) => {
+    loadOutdatedWordpress()
+        .then((data) => {
+            if (!data.versions.length) {
+                callback(null, responseOk({
+                    versions: data.versions
+                }));
+                return;
+            }
+
+            const webhook = new IncomingWebhook(getSettings().WATCH_WEBHOOK);
+
+            sendNotification(webhook, data.loadLatestWpVersion, data.versions)
+                .then((status) => {
+                    callback(null, responseOk({
+                        versions: data.versions
+                    }));
+                })
+                .catch((reason) => {
+                    callback(null, responseError({
+                        data: reason.toString()
+                    }));
+                });
+
+        })
+        .catch((reason) => {
+            callback(null, responseError({
+                data: reason.toString()
+            }));
+        });
+}
+
+const loadOutdatedWordpress = () => {
+    return new Promise((resolve, reject) => {
+        loadLatestWpVersion()
+            .then((version) => {
+                stableReleases(getDocumentClient())
+                    .then(parseReleases)
+                    .then(R.map(getVersion))
+                    .then((promises) => Promise.all(promises))
+                    .then(R.map(R.prop('Item')))
+                    .then(R.partial(filterVersionsByPackage, ['wordpress:']))
+                    .then(R.partial(filterVersionsByPackage, [`!wordpress:${version}`]))
+                    .then((versions) => {
+                        resolve(
+                            {loadLatestWpVersion: version, versions}
+                        )
+                    })
+                    .catch(reject)
+            })
+            .catch(reject);
+    });
+}
+
+const loadLatestWpVersion = () => {
+    return new Promise((resolve, reject) => {
+        loadAllWpVersions(VERSIONS_URL)
+            .then(parseVersions)
+            .then(R.head)
+            .then(resolve);
+    });
+}
+
+const loadAllWpVersions = (url) => {
     return new Promise((resolve, reject) => {
         request.get(url, (err, response, body) => {
             if (err || response.statusCode !== 200) {
@@ -29,20 +92,11 @@ function loadOffers(url) {
     });
 }
 
-function latestVersion() {
-    return new Promise((resolve, reject) => {
-        loadOffers(VERSIONS_URL)
-            .then(parseVersions)
-            .then(R.head)
-            .then(resolve);
-    });
-}
-
-function parseVersions(offers) {
+const parseVersions = (offers) => {
     return offers.map((item) => item.version);
 }
 
-function buildResponse(statusCode, body) {
+const buildResponse = (statusCode, body) => {
     return {
         statusCode,
         body: JSON.stringify(body)
@@ -71,28 +125,6 @@ const parseReleases = R.pipe(
     )
 );
 
-const loadOutdatedWordpress = () => {
-    return new Promise((resolve, reject) => {
-        latestVersion()
-            .then((version) => {
-                stableReleases(getDocumentClient())
-                    .then(parseReleases)
-                    .then(R.map(getVersion))
-                    .then((promises) => Promise.all(promises))
-                    .then(R.map(R.prop('Item')))
-                    .then(R.partial(filterVersionsByPackage, ['wordpress:']))
-                    .then(R.partial(filterVersionsByPackage, [`!wordpress:${version}`]))
-                    .then((versions) => {
-                        resolve(
-                            {latestVersion: version, versions}
-                        )
-                    })
-                    .catch(reject)
-            })
-            .catch(reject);
-    });
-}
-
 const getWpVersion = R.pipe(
     R.prop('packages'),
     R.filter(R.propEq('name', 'wordpress')),
@@ -100,7 +132,7 @@ const getWpVersion = R.pipe(
     R.prop('version')
 )
 
-const sendNotification = (webhook, latestVersion, versions) => {
+const sendNotification = (webhook, loadLatestWpVersion, versions) => {
     return new Promise((resolve, reject) => {
         const title = 'Oh no. I found a couple of sites running an outdated WordPress version:\n';
         let msg = R.map((item) => {
@@ -109,7 +141,7 @@ const sendNotification = (webhook, latestVersion, versions) => {
         }, versions);
         msg = msg.join('\n');
 
-        msg += `\n\nLatest version is: ${latestVersion}`;
+        msg += `\n\nLatest version is: ${loadLatestWpVersion}`;
 
         webhook.send(`${title}\n${msg}`, (err, header, statusCode, body) => {
             if (err) {
@@ -120,30 +152,6 @@ const sendNotification = (webhook, latestVersion, versions) => {
     });
 }
 
-function watchHandler(event, context, callback) {
-    loadOutdatedWordpress()
-        .then((data) => {
-            const webhook = new IncomingWebhook(getSettings().WATCH_WEBHOOK);
-
-            sendNotification(webhook, data.latestVersion, data.versions)
-                .then((status) => {
-                    callback(null, responseOk({
-                        versions: data.versions
-                    }));
-                })
-                .catch((reason) => {
-                    callback(null, responseError({
-                        data: reason.toString()
-                    }));
-                });
-
-        })
-        .catch((reason) => {
-            callback(null, responseError({
-                data: reason.toString()
-            }));
-        });
-}
 
 module.exports = {
     watchHandler,
