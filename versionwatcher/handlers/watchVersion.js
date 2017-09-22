@@ -27,9 +27,7 @@ const watchHandler = (event, context, callback) => {
                 return;
             }
 
-            const webhook = new IncomingWebhook(getSettings().WATCH_WEBHOOK);
-
-            sendNotification(webhook, data.latestVersion, data.versions)
+            sendIftttNotification(data.latestVersion, data.versions)
                 .then(status => {
                     callback(
                         null,
@@ -165,8 +163,9 @@ const sendIftttNotification = (latestVersion, version) => {
     });
 };
 
-const sendNotification = (webhook, loadLatestWpVersion, versions) => {
+const sendNotification = (loadLatestWpVersion, versions) => {
     return new Promise((resolve, reject) => {
+        const webhook = new IncomingWebhook(getSettings().WATCH_WEBHOOK);
         const title =
             "Oh no. I found a couple of sites running an outdated WordPress version:\n";
         let msg = R.map(item => {
