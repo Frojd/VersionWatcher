@@ -3,6 +3,7 @@
 const config = require('../config');
 const getSettings = require('../settings').getSettings;
 const getDocumentClient = require('../db').getDocumentClient;
+const cors = require('../utils/cors');
 const getDoc = require('../db').getDoc;
 const filterVersionsByPackage = require('../helpers').filterVersionsByPackage;
 const stableReleases = require('../helpers').stableReleases;
@@ -57,11 +58,7 @@ function stableHandler(event, context, callback) {
 
             const response = {
                 statusCode: 200,
-                headers: {
-                    'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'GET,OPTIONS',
-                    'Access-Control-Allow-Headers': 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'
-                },
+                headers: cors.getCorsXApiHeaders(),
                 body: JSON.stringify(values)
             };
 
