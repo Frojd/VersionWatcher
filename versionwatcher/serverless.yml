@@ -20,7 +20,7 @@ functions:
         description: Inspect and notify about old package versions
         events:
             - schedule:
-                rate: rate(24 hours)
+                rate: cron(0 12 * * ? *)
             - http:
                 path: tracker/watch
                 method: get
