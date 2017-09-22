@@ -13,6 +13,7 @@ provider:
         TABLE_PACKAGE: ${file(./serverless.env.yml):${opt:stage}.TABLE_PACKAGE}
         TABLE_STABLE: ${file(./serverless.env.yml):${opt:stage}.TABLE_STABLE}
         WATCH_WEBHOOK: ${env:WATCH_WEBHOOK}
+        IFTTT_KEY: ${env:IFTTT_KEY}
 
 functions:
     watchVersion:
