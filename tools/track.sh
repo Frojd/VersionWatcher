@@ -46,6 +46,12 @@ EOL
         ./wp-cli.phar core install --allow-root --admin_name=admin --admin_password=admin --admin_email=admin@example.com --url=http://example.com.dev --title=WordPress
         ;;
 
+    "wp-circle2-setup" )
+        curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x ./wp-cli.phar
+        ./wp-cli.phar core config --allow-root --dbname=circle_test --dbuser=root --dbhost=localhost
+        ./wp-cli.phar core install --allow-root --admin_name=admin --admin_password=admin --admin_email=admin@example.com --url=http://example.com.dev --title=WordPress
+        ;;
+
     "wp-circle-setup" )
         curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && chmod +x ./wp-cli.phar
         ./wp-cli.phar core config --allow-root --dbname=circle_test --dbuser=ubuntu --dbhost=127.0.0.1
